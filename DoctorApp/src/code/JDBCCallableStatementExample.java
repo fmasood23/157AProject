@@ -1,3 +1,5 @@
+package code;
+
 import java.sql.*;
 
 public class JDBCCallableStatementExample 
