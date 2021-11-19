@@ -93,19 +93,19 @@ public class FunctionalRequirements {
 
 	public void searchForOfficeWithDoctorName(String input) {
 		try {String sql = "";
-			sql = "select Administrator.dID, Administrator.doctorName, Offices.cityName from Administrator, Offices where Administrator.dID = Offices.dID and Administrator.doctorName = ?";
-			preparedStatement= conn.prepareStatement(sql);
-			preparedStatement.setString(1, input);
-			rs = preparedStatement.executeQuery();
+		sql = "select Administrator.dID, Administrator.doctorName, Offices.cityName from Administrator, Offices where Administrator.dID = Offices.dID and Administrator.doctorName = ?";
+		preparedStatement= conn.prepareStatement(sql);
+		preparedStatement.setString(1, input);
+		rs = preparedStatement.executeQuery();
 
-			System.out.println("*****Printing Offices with Doctor name: " + input + "*****");
-			while(rs.next()){
-				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
-				+ "    City=" + rs.getString("Offices.cityName"));
-			}
+		System.out.println("*****Printing Offices with Doctor name: " + input + "*****");
+		while(rs.next()){
+			System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
+			+ "    City=" + rs.getString("Offices.cityName"));
+		}
 
-			System.out.println("*****Done*****");
-			System.out.println();
+		System.out.println("*****Done*****");
+		System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -284,7 +284,7 @@ public class FunctionalRequirements {
 			preparedStatement= conn.prepareStatement(sql);
 			preparedStatement.setString(1, username);
 			rs = preparedStatement.executeQuery();
-			
+
 			while(rs.next()){
 				uid = rs.getInt("uid");
 			}
@@ -293,7 +293,7 @@ public class FunctionalRequirements {
 		}
 		return uid;
 	}
-	
+
 	public int getDIDFromDoctorName(String name) {
 		int did = 0;
 		try {			
@@ -302,7 +302,7 @@ public class FunctionalRequirements {
 			preparedStatement= conn.prepareStatement(sql);
 			preparedStatement.setString(1, name);
 			rs = preparedStatement.executeQuery();
-			
+
 			while(rs.next()){
 				did = rs.getInt("did");
 			}
@@ -311,7 +311,7 @@ public class FunctionalRequirements {
 		}
 		return did;
 	}
-	
+
 	public String getNameFromUsername(String name) {
 		String fullname = "";
 		try {			
@@ -320,7 +320,7 @@ public class FunctionalRequirements {
 			preparedStatement= conn.prepareStatement(sql);
 			preparedStatement.setString(1, name);
 			rs = preparedStatement.executeQuery();
-			
+
 			while(rs.next()){
 				fullname = rs.getString("name");
 			}
@@ -329,10 +329,10 @@ public class FunctionalRequirements {
 		}
 		return fullname;
 	}
-	
+
 	public static void main(String[] args) {
 		FunctionalRequirements f = new FunctionalRequirements();
 		System.out.println(f.getNameFromUsername("jdoe"));
-		
+
 	}	
 }
