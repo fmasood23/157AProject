@@ -32,6 +32,116 @@ public class FunctionalRequirements {
 		}
 	}
 
+	public static void createAccount(String fullName, String username, String password, String primaryDoctor) throws SQLException {
+		String sql = null;
+		sql = "insert into PublicUsers "
+				+ "(name, username, password, primaryDoctor) values" + "(?, ?, ?, ?)";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, fullName);
+			preparedStatement.setString(2, username);
+			preparedStatement.setString(3, password);
+			preparedStatement.setString(4, primaryDoctor);
+			preparedStatement.executeUpdate();
+			System.out.println("Account [" + username + "] Created Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void updatePassword(String username, String password) throws SQLException {
+		String sql = null;
+		sql = "update PublicUsers set password = ? where username = ?";
+
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, password);
+			preparedStatement.executeUpdate();
+			System.out.println("Account [" + username + "] Updated Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void insertVitals (int id, String bloodPressure, int glucose, int heartRate, String date) throws SQLException {
+		String sql = null;
+		sql = "insert into PatientVitals values (?, ?, ?, ?, ?)";
+
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setString(2, bloodPressure);
+			preparedStatement.setInt(3, glucose);
+			preparedStatement.setInt(4, heartRate);
+			preparedStatement.setString(5, date);
+			preparedStatement.executeUpdate();
+			System.out.println("Vitals for [" + id + "] Inserted Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void updateGlucose(int id, int glucose) throws SQLException {
+		String sql = null;
+
+		sql = "update PatientVitals set glucose = ? where id = ?";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, glucose);
+			preparedStatement.executeUpdate();
+			System.out.println("Vitals for [" + id + "] Updated Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void deleteVitals(int id) throws SQLException {
+		String sql = null;
+		sql = "delete from PatientVitals where id = ?";
+
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
+			System.out.println("Vitals for [" + id + "] Deleted Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void getHighRiskPatient() throws SQLException {
+		ResultSet rs = null;
+
+		rs = statement.executeQuery("select PublicUsers.uID as uID, PublicUsers.name as name from PublicUsers " +
+				"NATURAL JOIN  PatientVitals where PatientVitals.heartRate < 60 or PatientVitals.heartRate > 100");
+		System.out.println("High Risk Patients: ");
+		printResultSetfromHighRiskPatient(rs);
+		System.out.println("*****Done*****");
+	}
+
+	public static void printResultSetfromHighRiskPatient(ResultSet rs) throws SQLException
+	{
+		while(rs.next())
+		{
+			int id = rs.getInt("uID");
+			String name = rs.getString("name");
+			System.out.println("uID:" + id + ", Name:" + name);
+		}
+	}
+
 	public void searchForDoctorSpecialty(String input) {
 		String sql = "";
 		sql = "select * from Administrator where specialty = ?";
