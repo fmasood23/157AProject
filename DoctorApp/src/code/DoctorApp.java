@@ -1,9 +1,11 @@
 package code;
 
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class DoctorApp {
 	private String currentUsername;
+	private FunctionalRequirements f = new FunctionalRequirements();
 
 	/**
 	 * Starts the DoctorApp
@@ -46,12 +48,47 @@ public class DoctorApp {
 		{
 			System.out.print("Please enter your full name: ");
 			String fullName = in.nextLine();
+			// Check if the input is not null or blank space
+			while(fullName==null || fullName.trim().isEmpty())
+			{
+				System.out.println("*   *   *   *   *   *");
+				System.out.println("Invalid input! Please try again");
+
+				System.out.println("Please enter your full name: "
+						);
+				fullName = in.nextLine();
+			}
+
 			System.out.print("Please enter your username: ");
 			String username = in.nextLine();
+
+			// Check if the input is not null or blank space
+			while(username==null || username.trim().isEmpty())
+			{
+				System.out.println("*   *   *   *   *   *");
+				System.out.println("Invalid input! Please try again");
+
+				System.out.println("Please enter your username: "
+						);
+				username = in.nextLine();
+			}
+
 			System.out.print("Please enter your password: ");
 			String password = in.nextLine();
+			// Check if the input is not null or blank space
+			while(password==null || password.trim().isEmpty())
+			{
+				System.out.println("*   *   *   *   *   *");
+				System.out.println("Invalid input! Please try again");
+
+				System.out.println("Please enter your password: "
+						);
+				password = in.nextLine();
+			}
+
 			System.out.print("Please enter the full name of your primary doctor: ");
 			String primaryDoctor = in.nextLine();
+
 
 			// **** INSERT new user to db
 			// Success message
@@ -72,24 +109,47 @@ public class DoctorApp {
 		else if(input.equals("2"))
 		{
 			System.out.print("Please enter your username: ");
-			String username = in.nextLine();
+			String signInUsername = in.nextLine();
+			// Check if the input is not null or blank space
+			while(signInUsername==null || signInUsername.trim().isEmpty())
+			{
+				System.out.println("*   *   *   *   *   *");
+				System.out.println("Invalid input! Please try again");
+
+				System.out.println("Please enter your username: "
+						);
+				signInUsername = in.nextLine();
+			}
+
 			System.out.print("Please enter your password: ");
-			String password = in.nextLine();
+			String signInPassword = in.nextLine();
+			// Check if the input is not null or blank space
+			while(signInPassword==null || signInPassword.trim().isEmpty())
+			{
+				System.out.println("*   *   *   *   *   *");
+				System.out.println("Invalid input! Please try again");
+
+				System.out.println("Please enter your password: "
+						);
+				signInPassword = in.nextLine();
+			}
 
 			// **** USER OAUTH
 			// Success message	
 			//if(success) {
 			System.out.println("Successfully signed in!");
-			currentUsername = username; // keep track of who's the current user
+			currentUsername = signInUsername; // keep track of who's the current user
 			afterSignIn();
 			//			}
+
+			/* Failed to sign in */
 			//			else {
 			// Failure message
-			//				System.out.println("Failed to sign in. \nIncorrect username or password!");
+			//			System.out.println("Failed to sign in. \nIncorrect username or password!");
 			//
-			//				System.out.println("*   *   *   *   *   *");
+			//			System.out.println("*   *   *   *   *   *");
 			//
-			//				beforeSignIn();
+			//			beforeSignIn();
 			//}
 		}		
 	}
@@ -178,6 +238,17 @@ public class DoctorApp {
 					System.out.print("Please enter your new full name: ");
 					String newFullName = in.nextLine();
 
+					// Check if the input is not null or blank space
+					while(newFullName==null || newFullName.trim().isEmpty())
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.println("Please enter your new full name: "
+								);
+						newFullName = in.nextLine();
+					}
+
 					// **** UPDATE PublicUser in db
 					// Success message
 					//if(success) {
@@ -196,6 +267,17 @@ public class DoctorApp {
 				{
 					System.out.print("Please enter your new password: ");
 					String newPassword = in.nextLine();
+
+					// Check if the input is not null or blank space
+					while(newPassword==null || newPassword.trim().isEmpty())
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.println("Please enter your new password: "
+								);
+						newPassword = in.nextLine();
+					}
 
 					// **** UPDATE PublicUser in db
 					// Success message	
@@ -236,18 +318,60 @@ public class DoctorApp {
 			case "2" :
 				System.out.println("*Input vital signs*");
 				// gets user input
-				System.out.print("Please enter your Body Temperature: ");
-				String bodyTemp = in.nextLine();
-				System.out.print("Please enter your Pulse Rate: ");
-				String pulseRate = in.nextLine();
-				System.out.print("Please enter your Respiration Rate: ");
-				String respirationRate = in.nextLine();
-				System.out.print("Please enter your Blood Pressure: ");
+				System.out.print("Please enter your Blood Pressure (eg. 120/80): ");
 				String bloodPressure = in.nextLine();
-				System.out.print("Please enter Date: ");
-				String date = in.nextLine();
+				String[] splitBloodPress = bloodPressure.split("/");
 
-				/*!!!!!!!!!!!!!! HAS NOT VALIDATE INPUT  because of "/" and "-" in pulse rate and date		*/		
+				// Check if the input is not null or blank space
+				while(!bloodPressure.contains("/") || !isInteger(splitBloodPress[0]) || !isInteger(splitBloodPress[1]))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter your Blood Pressure (eg. 120/80): ");
+					bloodPressure = in.nextLine();
+					splitBloodPress = bloodPressure.split("/");
+				}
+
+				System.out.print("Please enter your Glucose: ");
+				String glucose = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(glucose))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter your Glucose: ");
+					glucose = in.nextLine();
+				}
+
+				System.out.print("Please enter your Heart Rate: ");
+				String heartRate = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(heartRate))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter your Heart Rate: ");
+					heartRate = in.nextLine();
+				}
+
+				System.out.print("Please enter Date (eg. 2021-06-01): ");
+				String date = in.nextLine();
+				String cleanDate = date.replaceAll("-","");
+				
+				// Check if the input is valid
+				while(!isDate(cleanDate) || !date.contains("-"))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Date (eg. 2021-06-01): ");
+					date = in.nextLine();
+					cleanDate = date.replaceAll("-","");
+				}
+
 
 				// **** INSERT new vital signs to db
 				// Success message
@@ -267,11 +391,10 @@ public class DoctorApp {
 				System.out.println("*Edit vital signs*");
 				// gets input from user
 				System.out.println("What do you want to edit: "
-						+ "\n" + "Enter '1' --- Body Temperature" 
-						+ "\n" + "Enter '2' --- Pulse Rate" 
-						+ "\n" + "Enter '3' --- Respiration Rate" 
-						+ "\n" + "Enter '4' --- Blood Pressure" 
-						+ "\n" + "Enter '5' --- Date" 
+						+ "\n" + "Enter '1' --- Blood Pressure" 
+						+ "\n" + "Enter '2' --- Glucose" 
+						+ "\n" + "Enter '3' --- Heart Rate" 
+						+ "\n" + "Enter '4' --- Date" 
 						+ "\n" + "Enter '0' --- Cancel"  
 						+ "\n" + "Enter you option: "
 						);
@@ -285,11 +408,10 @@ public class DoctorApp {
 					System.out.println("Invalid input! Please try again");
 
 					System.out.println("What do you want to edit: "
-							+ "\n" + "Enter '1' --- Body Temperature" 
-							+ "\n" + "Enter '2' --- Pulse Rate" 
-							+ "\n" + "Enter '3' --- Respiration Rate" 
-							+ "\n" + "Enter '4' --- Blood Pressure" 
-							+ "\n" + "Enter '5' --- Date" 
+							+ "\n" + "Enter '1' --- Blood Pressure" 
+							+ "\n" + "Enter '2' --- Glucose" 
+							+ "\n" + "Enter '3' --- Heart Rate" 
+							+ "\n" + "Enter '4' --- Date" 
 							+ "\n" + "Enter '0' --- Cancel"  
 							+ "\n" + "Enter you option: "
 							);
@@ -302,68 +424,26 @@ public class DoctorApp {
 					System.out.println("No changes in vital signs");
 				}
 
-				/** Edit Body Temperature **/
-				else if(editVS.equals("1"))
-				{
-					System.out.print("Please enter your new Body Temperature: ");
-					String newBodyTemperature = in.nextLine();
-
-					// **** UPDATE PatientVitals  in db
-					// Success message
-					//if(success) {
-					System.out.println("Successfully changed Body Temperature!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Body Temperature");
-
-					//}
-				}
-
-				/** Edit Pulse Rate **/
-				else if(editVS.equals("2"))
-				{
-					System.out.print("Please enter your new Pulse Rate: ");
-					String newPulseRate = in.nextLine();
-
-					// **** UPDATE PatientVitals  in db
-					// Success message	
-					//if(success) {
-					System.out.println("Successfully changed Pulse Rate!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Pulse Rate");
-
-
-					//}
-				}		
-				/** Edit Respiration Rate **/
-				else if(editVS.equals("3"))
-				{
-					System.out.print("Please enter your new Respiration Rate: ");
-					String newRespirationRate = in.nextLine();
-
-					// **** UPDATE PatientVitals  in db
-					// Success message	
-					//if(success) {
-					System.out.println("Successfully changed Respiration Rate!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Respiration Rate");
-
-
-					//}
-				}		
 				/** Edit Blood Pressure **/
-				else if(editVS.equals("4"))
+				else if(editVS.equals("1"))
 				{
 					System.out.print("Please enter your new Blood Pressure: ");
 					String newBloodPressure = in.nextLine();
+					String[] splitNewBloodPress = newBloodPressure.split("/");
+
+					// Check if the input is not null or blank space
+					while(!newBloodPressure.contains("/") || !isInteger(splitNewBloodPress[0]) || !isInteger(splitNewBloodPress[1]))
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.println("Please enter your new Blood Pressure (eg. 120/80): ");
+						newBloodPressure = in.nextLine();
+						splitNewBloodPress = newBloodPressure.split("/");
+					}
 
 					// **** UPDATE PatientVitals  in db
-					// Success message	
+					// Success message
 					//if(success) {
 					System.out.println("Successfully changed Blood Pressure!");
 					//							}
@@ -371,15 +451,81 @@ public class DoctorApp {
 					// Failure message
 					System.out.println("Error - Cannot change Blood Pressure");
 
+					//}
+				}
+
+				/** Edit Glucose **/
+				else if(editVS.equals("2"))
+				{
+					System.out.print("Please enter your new Glucose: ");
+					String newGlucose = in.nextLine();
+					// Check if the input is valid
+					while(!isInteger(newGlucose))
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.print("Please enter your new Glucose: ");
+						newGlucose = in.nextLine();
+					}
+
+					// **** UPDATE PatientVitals  in db
+					// Success message	
+					//if(success) {
+					System.out.println("Successfully changed Glucose!");
+					//							}
+					//							else {
+					// Failure message
+					System.out.println("Error - Cannot change Glucose");
+
 
 					//}
 				}		
+				/** Edit Heart Rate **/
+				else if(editVS.equals("3"))
+				{
+					System.out.print("Please enter your new Heart Rate: ");
+					String newHeartRate = in.nextLine();
+					// Check if the input is valid
+					while(!isInteger(newHeartRate))
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.print("Please enter your new Heart Rate: ");
+						newHeartRate = in.nextLine();
+					}
+					// **** UPDATE PatientVitals  in db
+					// Success message	
+					//if(success) {
+					System.out.println("Successfully changed Heart Rate!");
+					//							}
+					//							else {
+					// Failure message
+					System.out.println("Error - Cannot change Heart Rate");
+
+
+					//}
+				}		
+
 				/** Edit Date **/
-				else if(editVS.equals("5"))
+				else if(editVS.equals("4"))
 				{
 					System.out.print("Please enter your new Date: ");
 					String newDate = in.nextLine();
+					String cleanNewDate = newDate.replaceAll("-","");
+					
+					// Check if the input is valid
+					while(!isDate(cleanNewDate) || !newDate.contains("-"))
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
 
+						System.out.print("Please enter new Date (eg. 2021-06-01): ");
+						newDate = in.nextLine();
+						cleanNewDate = newDate.replaceAll("-","");
+					}
+					
 					// **** UPDATE PatientVitals  in db
 					// Success message	
 					//if(success) {
@@ -399,23 +545,111 @@ public class DoctorApp {
 				System.out.println("*Delete vital signs*");
 
 
-				//!!!!!!!! WHAT INPUTS DO WE NEED FOR THIS?
+				//delete by uID
 
 				break;
 
 				/* Search for doctor */
 			case "5" :
 				System.out.println("*Search for doctor*");
-				// gets user input
-				System.out.print("Please enter Doctor's Name: ");
-				String searchDoctorName = in.nextLine();
-				System.out.print("Please enter Dotor's Specialty: ");
-				String searchDoctorSpecialty = in.nextLine();
-				System.out.print("Please enter Doctor's Office Location: ");
-				String searchDoctorOffice = in.nextLine();
+				
+				// gets input from user
+				System.out.println("How do you want to search: "
+						+ "\n" + "Enter '1' --- Search by location" 
+						+ "\n" + "Enter '2' --- Search by specialty" 
+						+ "\n" + "Enter '3' --- Search to see full appointments for a specific doctor" 
+						+ "\n" + "Enter '0' --- Cancel"  
+						+ "\n" + "Enter you option: "
+						);
 
-				System.out.println("Search Results: ");
+				String searchOption = in.nextLine();
 
+				// Check if the input is valid
+				while(!isInteger(searchOption) || Integer.valueOf(searchOption)<0 || Integer.valueOf(searchOption)>3)
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("How do you want to search: "
+							+ "\n" + "Enter '1' --- Search by location" 
+							+ "\n" + "Enter '2' --- Search by specialty" 
+							+ "\n" + "Enter '3' --- Search to see full appointments for a specific doctor" 
+							+ "\n" + "Enter '0' --- Cancel"  
+							+ "\n" + "Enter you option: "
+							);
+					searchOption = in.nextLine();
+				}
+
+				// Cancel
+				if(searchOption.equals("0"))
+				{
+					System.out.println("Cancel Searching");
+				}
+
+				/** Search by location **/
+				else if(searchOption.equals("1"))
+				{
+					System.out.print("Please enter City Name: ");
+					String searchDoctorOffice = in.nextLine();
+					
+					// Check if the input is not null or blank space
+					while(searchDoctorOffice==null || searchDoctorOffice.trim().isEmpty())
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.println("Please enter City Name: ");
+						searchDoctorOffice = in.nextLine();
+					}
+					
+					System.out.println("Search Results: ");
+					
+					f.searchForOfficeWithCityName(searchDoctorOffice);
+
+				}
+
+				/** Search by specialty **/
+				else if(searchOption.equals("2"))
+				{
+					System.out.print("Please enter Doctor's Specialty: ");
+					String searchDoctorSpecialty = in.nextLine();
+					
+					// Check if the input is not null or blank space
+					while(searchDoctorSpecialty==null || searchDoctorSpecialty.trim().isEmpty())
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.println("Please enter Doctor's Specialty: ");
+						searchDoctorSpecialty = in.nextLine();
+					}
+					
+					System.out.println("Search Results: ");
+
+					f.searchForDoctorSpecialty(searchDoctorSpecialty);
+				}
+				
+				/** Search to see full appointments for a specific doctor **/
+				else if(searchOption.equals("3"))
+				{
+					System.out.print("Please enter Doctor's Name: ");
+					String searchDoctorName = in.nextLine();
+					
+					// Check if the input is not null or blank space
+					while(searchDoctorName==null || searchDoctorName.trim().isEmpty())
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
+
+						System.out.println("Please enter Doctor's Name: ");
+						searchDoctorName = in.nextLine();
+					}
+					
+					System.out.println("Search Results: ");
+
+					f.searchBasedOnDoctorName(searchDoctorName);
+				}		
+				
 				break;
 
 				/* Search doctor offices */
@@ -425,20 +659,45 @@ public class DoctorApp {
 				System.out.print("Please enter Doctor's Name: ");
 				String searchOfficeName = in.nextLine();
 
-				System.out.println("Search Results: ");
+				// Check if the input is not null or blank space
+				while(searchOfficeName==null || searchOfficeName.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
 
+					System.out.println("Please enter Doctor's Name: ");
+					searchOfficeName = in.nextLine();
+				}
+				
+				System.out.println("Search Results: ");
+				
+				f.searchForOfficeWithDoctorName(searchOfficeName);
+				
 				break;
 
 				/* Display the number of doctors in a specific location */		
 			case "7" :
 				System.out.println("*Display the number of doctors in a specific location*");
 				// gets user input
-				System.out.print("Please enter the city: ");
+				System.out.print("Please enter City Name: ");
 				String doctorCountByCity = in.nextLine();
 
+				// Check if the input is not null or blank space
+				while(doctorCountByCity==null || doctorCountByCity.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter City Name: ");
+					doctorCountByCity = in.nextLine();
+				}
+				
 				System.out.println("Number of doctors at " + doctorCountByCity + ": ");
 
+				f.numberOfDoctorsInOffice(input);
+				
 				break;
+				
 				/* Display Doctor reviews */	
 			case "8" :
 				System.out.println("*Display Doctor reviews*");
@@ -446,7 +705,20 @@ public class DoctorApp {
 				System.out.print("Please enter Doctor's Name: ");
 				String doctorReviewByName = in.nextLine();
 
+				// Check if the input is not null or blank space
+				while(doctorReviewByName==null || doctorReviewByName.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Name: ");
+					doctorReviewByName = in.nextLine();
+				}
+				
 				System.out.println("Reviews of Dr. " + doctorReviewByName + ": ");
+				
+				f.seeReviews(f.getDIDFromDoctorName(doctorReviewByName));
+				
 				break;
 
 				/* Write reviews */
@@ -455,20 +727,33 @@ public class DoctorApp {
 				// gets user input
 				System.out.print("Please enter Doctor's Name: ");
 				String reviewDoctorName = in.nextLine();
+				
+				// Check if the input is not null or blank space
+				while(reviewDoctorName==null || reviewDoctorName.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Name: ");
+					reviewDoctorName = in.nextLine();
+				}
+				
 				System.out.print("Please enter the number of stars (1-5): ");
 				String reviewDoctorStars = in.nextLine();
-
 				// Validate input for stars
+				/*
+				 * WILL USE TRIGGERS TO CHECK 
+				 * 
 				while(!isInteger(reviewDoctorStars) || Integer.valueOf(reviewDoctorStars)<1 || Integer.valueOf(reviewDoctorStars)>5)
 				{
 					System.out.println("*   *   *   *   *   *");
 					System.out.print("Invalid input for stars!");
 					System.out.print("Please enter the number of stars (1-5): ");
-
 					reviewDoctorStars = in.nextLine();
-				}
+				}*/
 
 				System.out.println("Successfully rated Dr. " + reviewDoctorName + " " + reviewDoctorStars + " stars!");
+				f.writeReviews(f.getNameFromUsername(currentUsername),f.getDIDFromDoctorName(reviewDoctorName) , Integer.parseInt(reviewDoctorStars));
 				break;
 
 				/* Delete reviews */
@@ -477,7 +762,18 @@ public class DoctorApp {
 				// gets user input
 				System.out.print("Please enter Doctor's Name: ");
 				String deleteDoctorReviewName = in.nextLine();
+				// Check if the input is not null or blank space
+				while(deleteDoctorReviewName==null || deleteDoctorReviewName.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
 
+					System.out.println("Please enter Doctor's Name: ");
+					deleteDoctorReviewName = in.nextLine();
+				}
+				
+				f.deleteReviews(f.getNameFromUsername(currentUsername), f.getDIDFromDoctorName(deleteDoctorReviewName));
+				
 				System.out.println("Successfully removed the review for Dr. " + deleteDoctorReviewName);
 
 				break;
@@ -488,18 +784,34 @@ public class DoctorApp {
 				// gets user input
 				System.out.print("Please enter Doctor's Name: ");
 				String editDoctorReviewName = in.nextLine();
+				
+				// Check if the input is not null or blank space
+				while(editDoctorReviewName==null || editDoctorReviewName.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Name: ");
+					editDoctorReviewName = in.nextLine();
+				}
+				
 				System.out.print("Please enter the number of stars (1-5): ");
 				String editDoctorReviewStars = in.nextLine();
 
 				// Validate input for stars
+				/*
+				 * WILL BE CHECKED BY TRIGGERS
+				 * 
 				while(!isInteger(editDoctorReviewStars) || Integer.valueOf(editDoctorReviewStars)<1 || Integer.valueOf(editDoctorReviewStars)>5)
 				{
 					System.out.println("*   *   *   *   *   *");
 					System.out.print("Invalid input for stars!");
 					System.out.print("Please enter the number of stars (1-5): ");
-
 					editDoctorReviewStars = in.nextLine();
 				}
+				*/
+				f.editReviews(f.getDIDFromDoctorName(editDoctorReviewName), f.getNameFromUsername(currentUsername), Integer.parseInt(editDoctorReviewStars));
+				
 				System.out.println("Successfully rated Dr. " + editDoctorReviewName + " " + editDoctorReviewStars + " stars!");
 				break;
 
@@ -509,14 +821,48 @@ public class DoctorApp {
 				// gets user input
 				System.out.print("Please enter Doctor's Name: ");
 				String reserveDocName = in.nextLine();
-				System.out.print("Please enter the appointment date: ");
+				// Check if the input is not null or blank space
+				while(reserveDocName==null || reserveDocName.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Name: ");
+					reserveDocName = in.nextLine();
+				}
+				
+				System.out.print("Please enter the appointment date(eg. 2021-06-01): ");
 				String reserveDate = in.nextLine();
+				String cleanReserveDate = reserveDate.replaceAll("-","");
+				
+				// Check if the input is valid
+				while(!isDate(cleanReserveDate) || !reserveDate.contains("-"))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Date (eg. 2021-06-01): ");
+					reserveDate = in.nextLine();
+					cleanReserveDate = reserveDate.replaceAll("-","");
+				}
+				
 				System.out.print("Please enter the appointment time: ");
 				String reserveTime = in.nextLine();
+				// Check if the input is valid
+				while(!isTime(reserveTime))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
 
+					System.out.print("Please enter the appointment time (eg. 15:00:00): ");
+					reserveTime = in.nextLine();
+				}
+			
+				f.makeReservation(reserveDate, reserveTime, f.getUIDFromUsername(currentUsername),f.getDIDFromDoctorName(reserveDocName));
+				
 				System.out.println("Successfully made an appointment with Dr. " + reserveDocName + " at " + reserveTime + " on " + reserveDate);
 
-				System.out.println("Failed to make an appointment!");
+				//System.out.println("Failed to make an appointment!");
 				break;
 
 				/* Cancel reservation */
@@ -525,19 +871,54 @@ public class DoctorApp {
 				// gets user input
 				System.out.print("Please enter Doctor's Name: ");
 				String cancelDocName = in.nextLine();
-				System.out.print("Please enter the appointment date: ");
+				// Check if the input is not null or blank space
+				while(cancelDocName==null || cancelDocName.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Name: ");
+					cancelDocName = in.nextLine();
+				}
+				
+				System.out.print("Please enter the appointment date (eg. 2021-06-01): ");
 				String cancelDate = in.nextLine();
-				System.out.print("Please enter the appointment time: ");
+				String cleanCancelDate = cancelDate.replaceAll("-","");
+				
+				// Check if the input is valid
+				while(!isDate(cleanCancelDate) || !cancelDate.contains("-"))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Date (eg. 2021-06-01): ");
+					cancelDate = in.nextLine();
+					cleanCancelDate = cancelDate.replaceAll("-","");
+				}
+				
+				System.out.print("Please enter the appointment time (eg. 15:00:00): ");
 				String cancelTime = in.nextLine();
+				// Check if the input is valid
+				while(!isTime(cancelTime))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter the appointment time (eg. 15:00:00): ");
+					cancelTime = in.nextLine();
+				}
 
 				System.out.println("Successfully cancel an appointment with Dr. " + cancelDocName + " at " + cancelTime + " on " + cancelDate);
 
-				System.out.println("Failed to cancel an appointment!");
+				f.cancelReservation(f.getUIDFromUsername(currentUsername), f.getDIDFromDoctorName(cancelDocName), cancelDate, cancelTime);
+				
+				//System.out.println("Failed to cancel an appointment!");
 				break;
 
 				/* Display my reservation */
 			case "14" :
 				System.out.println("*Display my reservation*");
+				f.displayReservationWithUID(f.getUIDFromUsername(currentUsername));
 				break;
 
 				/* Stop the engine */ 
@@ -576,6 +957,31 @@ public class DoctorApp {
 		}
 	} 
 
+	public boolean isDate(String str) 
+	{ 	
+		try {
+			new SimpleDateFormat("yyyyDDmm").parse(str);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static boolean isTime(String str) {
+	    try {
+	    	if(!str.contains(":")) {
+	    		return false;
+	    	}
+	    	else {
+		        String[] time = str.split(":");
+		        return  Integer.parseInt(time[0]) < 24 && Integer.parseInt(time[1]) < 60 && Integer.parseInt(time[2]) < 60;
+	    	}
+
+	    } catch (Exception e) {
+	        return false;
+	    }
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("**************************");
 		System.out.println("Doctor Office Schedule");
