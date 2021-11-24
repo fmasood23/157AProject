@@ -13,7 +13,7 @@ public class FunctionalRequirements {
 	static final String DB_URL = "jdbc:mysql://localhost/doctorapp?serverTimezone=UTC";
 
 	static final String USER = "root";
-	static final String PASS = "farah1603";
+	static final String PASS = "root";
 	private static PreparedStatement preparedStatement = null;
 
 	public Connection conn = null;
@@ -32,7 +32,7 @@ public class FunctionalRequirements {
 		}
 	}
 
-	public static void createAccount(String fullName, String username, String password, String primaryDoctor) throws SQLException {
+	public void createAccount(String fullName, String username, String password, String primaryDoctor) {
 		String sql = null;
 		sql = "insert into PublicUsers "
 				+ "(name, username, password, primaryDoctor) values" + "(?, ?, ?, ?)";
@@ -52,14 +52,14 @@ public class FunctionalRequirements {
 
 	}
 
-	public static void updatePassword(String username, String password) throws SQLException {
+	public void updatePassword(String username, String password) {
 		String sql = null;
 		sql = "update PublicUsers set password = ? where username = ?";
 
 		try {
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, username);
-			preparedStatement.setString(2, password);
+			preparedStatement.setString(1, password);
+			preparedStatement.setString(2, username);
 			preparedStatement.executeUpdate();
 			System.out.println("Account [" + username + "] Updated Successfully...");
 			System.out.println("*****Done*****");
@@ -69,7 +69,24 @@ public class FunctionalRequirements {
 		}
 	}
 
-	public static void insertVitals (int id, String bloodPressure, int glucose, int heartRate, String date) throws SQLException {
+	public void updatePrimaryDoctor(String username, String primaryDoctor) {
+		String sql = null;
+		sql = "update PublicUsers set primaryDoctor = ? where username = ?";
+
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, primaryDoctor);
+			preparedStatement.setString(2, username);
+			preparedStatement.executeUpdate();
+			System.out.println("Account [" + username + "] Updated Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void insertVitals (int id, String bloodPressure, int glucose, int heartRate, String date) {
 		String sql = null;
 		sql = "insert into PatientVitals values (?, ?, ?, ?, ?)";
 
@@ -89,16 +106,16 @@ public class FunctionalRequirements {
 		}
 	}
 
-	public static void updateGlucose(int id, int glucose) throws SQLException {
+	public void updateGlucose(int id, int glucose) {
 		String sql = null;
 
 		sql = "update PatientVitals set glucose = ? where id = ?";
 		try {
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setInt(1, id);
-			preparedStatement.setInt(2, glucose);
+			preparedStatement.setInt(1, glucose);
+			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
-			System.out.println("Vitals for [" + id + "] Updated Successfully...");
+			System.out.println("Vital Glucose for [" + id + "] Updated Successfully...");
 			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -106,7 +123,58 @@ public class FunctionalRequirements {
 		}
 	}
 
-	public static void deleteVitals(int id) throws SQLException {
+	public void updateBloodPressure(int id, String bloodPressure) {
+		String sql = null;
+
+		sql = "update PatientVitals set bloodPressure = ? where id = ?";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, bloodPressure);
+			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+			System.out.println("Vital Blood Pressure for [" + id + "] Updated Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void updateTemperature(int id, int temperature) {
+		String sql = null;
+
+		sql = "update PatientVitals set temperature = ? where id = ?";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, temperature);
+			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+			System.out.println("Vital Body Temperature for [" + id + "] Updated Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void updateHeartRate(int id, int heartRate) {
+		String sql = null;
+
+		sql = "update PatientVitals set heartRate = ? where id = ?";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, heartRate);
+			preparedStatement.setInt(2, id);
+			preparedStatement.executeUpdate();
+			System.out.println("Vital Heart Rate for [" + id + "] Updated Successfully...");
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteVitals(int id) {
 		String sql = null;
 		sql = "delete from PatientVitals where id = ?";
 
@@ -122,24 +190,37 @@ public class FunctionalRequirements {
 		}
 	}
 
-	public static void getHighRiskPatient() throws SQLException {
-		ResultSet rs = null;
+	public void getHighRiskPatient() {
+		try {
+			ResultSet rs = null;
 
-		rs = statement.executeQuery("select PublicUsers.uID as uID, PublicUsers.name as name from PublicUsers " +
-				"NATURAL JOIN  PatientVitals where PatientVitals.heartRate < 60 or PatientVitals.heartRate > 100");
-		System.out.println("High Risk Patients: ");
-		printResultSetfromHighRiskPatient(rs);
-		System.out.println("*****Done*****");
+			rs = stmt.executeQuery("select PublicUsers.uID as uID, PublicUsers.name as name from PublicUsers " +
+					"NATURAL JOIN  PatientVitals where PatientVitals.heartRate < 60 or PatientVitals.heartRate > 100");
+			System.out.println("High Risk Patients: ");
+			printResultSetfromHighRiskPatient(rs);
+			System.out.println("*****Done*****");
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public static void printResultSetfromHighRiskPatient(ResultSet rs) throws SQLException
+	public void printResultSetfromHighRiskPatient(ResultSet rs)
 	{
-		while(rs.next())
-		{
-			int id = rs.getInt("uID");
-			String name = rs.getString("name");
-			System.out.println("uID:" + id + ", Name:" + name);
+		try {
+			while(rs.next())
+			{
+				int id = rs.getInt("uID");
+				String name = rs.getString("name");
+				System.out.println("uID:" + id + ", Name:" + name);
+			}
 		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public void searchForDoctorSpecialty(String input) {
@@ -191,7 +272,7 @@ public class FunctionalRequirements {
 			System.out.println("*****Printing Doctors with name: " + input + "*****");
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
-				+ "    Appointment Date=" + rs.getDate("Reservation.appointmentDate"));
+						+ "    Appointment Date=" + rs.getDate("Reservation.appointmentDate"));
 			}
 
 			System.out.println("*****Done*****");
@@ -203,19 +284,19 @@ public class FunctionalRequirements {
 
 	public void searchForOfficeWithDoctorName(String input) {
 		try {String sql = "";
-		sql = "select Administrator.dID, Administrator.doctorName, Offices.cityName from Administrator, Offices where Administrator.dID = Offices.dID and Administrator.doctorName = ?";
-		preparedStatement= conn.prepareStatement(sql);
-		preparedStatement.setString(1, input);
-		rs = preparedStatement.executeQuery();
+			sql = "select Administrator.dID, Administrator.doctorName, Offices.cityName from Administrator, Offices where Administrator.dID = Offices.dID and Administrator.doctorName = ?";
+			preparedStatement= conn.prepareStatement(sql);
+			preparedStatement.setString(1, input);
+			rs = preparedStatement.executeQuery();
 
-		System.out.println("*****Printing Offices with Doctor name: " + input + "*****");
-		while(rs.next()){
-			System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
-			+ "    City=" + rs.getString("Offices.cityName"));
-		}
+			System.out.println("*****Printing Offices with Doctor name: " + input + "*****");
+			while(rs.next()){
+				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
+						+ "    City=" + rs.getString("Offices.cityName"));
+			}
 
-		System.out.println("*****Done*****");
-		System.out.println();
+			System.out.println("*****Done*****");
+			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -373,7 +454,7 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(1, input);
 			rs = preparedStatement.executeQuery();
 
-			System.out.println("*****Printing Reservation with User ID*****");   
+			System.out.println("*****Printing Reservation with User ID*****");
 
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName") + "    Appointment Date= " + rs.getDate("Reservation.appointmentDate")  + "    Appointment Time= " + rs.getTime("Reservation.appointmentTime"));
@@ -388,7 +469,7 @@ public class FunctionalRequirements {
 
 	public int getUIDFromUsername(String username) {
 		int uid = 0;
-		try {			
+		try {
 			String sql = "";
 			sql = "select * from PublicUsers where username=?";
 			preparedStatement= conn.prepareStatement(sql);
@@ -406,7 +487,7 @@ public class FunctionalRequirements {
 
 	public int getDIDFromDoctorName(String name) {
 		int did = 0;
-		try {			
+		try {
 			String sql = "";
 			sql = "select * from Administrator where doctorName=?";
 			preparedStatement= conn.prepareStatement(sql);
@@ -424,7 +505,7 @@ public class FunctionalRequirements {
 
 	public String getNameFromUsername(String name) {
 		String fullname = "";
-		try {			
+		try {
 			String sql = "";
 			sql = "select * from PublicUsers where username=?";
 			preparedStatement= conn.prepareStatement(sql);
@@ -444,5 +525,5 @@ public class FunctionalRequirements {
 		FunctionalRequirements f = new FunctionalRequirements();
 		System.out.println(f.getNameFromUsername("jdoe"));
 
-	}	
+	}
 }
