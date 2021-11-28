@@ -24,6 +24,8 @@ public class StoredProcedure {
     public StoredProcedure() {
         //in = new Scanner(System.in);
         try {
+            // Open a connection and select the database named CS
+            System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -32,10 +34,6 @@ public class StoredProcedure {
     }
     // 1. create table Archive
     public static void createTable() {
-        // Open a connection and select the database named CS
-
-        System.out.println("Connecting to database...");
-        conn = DriverManager.getConnection(DB_URL+"CS?serverTimezone=UTC", USER, PASS);
         stmt = conn.createStatement();
 
         String queryDrop = "DROP TABLE IF EXISTS Archive";
