@@ -89,18 +89,7 @@ public class DoctorApp {
 			System.out.print("Please enter the full name of your primary doctor: ");
 			String primaryDoctor = in.nextLine();
 
-
-			// **** INSERT new user to db
-			// Success message
-			//if(success) {
-			System.out.println("Successfully created an account!");
-			//			}
-			//			else {
-			// Failure message
-			System.out.println("Failed to create an account. \nAn account with this username already exists");
-
-			System.out.println("*   *   *   *   *   *");
-			//}
+			f.createAccount(fullName, username, password, primaryDoctor);
 
 			beforeSignIn();
 		}
@@ -134,23 +123,10 @@ public class DoctorApp {
 				signInPassword = in.nextLine();
 			}
 
-			// **** USER OAUTH
-			// Success message	
-			//if(success) {
 			System.out.println("Successfully signed in!");
 			currentUsername = signInUsername; // keep track of who's the current user
 			afterSignIn();
-			//			}
 
-			/* Failed to sign in */
-			//			else {
-			// Failure message
-			//			System.out.println("Failed to sign in. \nIncorrect username or password!");
-			//
-			//			System.out.println("*   *   *   *   *   *");
-			//
-			//			beforeSignIn();
-			//}
 		}		
 	}
 
@@ -187,7 +163,8 @@ public class DoctorApp {
 					+ "\n" + "Enter '11' --- Edit reviews"  
 					+ "\n" + "Enter '12' --- Make reservation"  
 					+ "\n" + "Enter '13' --- Cancel reservation"  
-					+ "\n" + "Enter '14' --- Display my reservation"  
+					+ "\n" + "Enter '14' --- Display my reservation"
+					+ "\n" + "Enter '15' --- Display high risk patients (**method for Administrator**)"
 					+ "\n" + "Enter '0' --- Quit"  
 					+ "\n" + "Enter you option: "
 					);
@@ -201,9 +178,8 @@ public class DoctorApp {
 				System.out.println("*Edit user profile*");
 				// gets input from user
 				System.out.println("What do you want to edit: "
-						+ "\n" + "Enter '1' --- Full Name" 
-						+ "\n" + "Enter '2' --- Password" 
-						+ "\n" + "Enter '3' --- Primary Doctor" 
+						+ "\n" + "Enter '1' --- Password" 
+						+ "\n" + "Enter '2' --- Primary Doctor" 
 						+ "\n" + "Enter '0' --- Cancel"  
 						+ "\n" + "Enter you option: "
 						);
@@ -211,15 +187,14 @@ public class DoctorApp {
 				String editUP = in.nextLine();
 
 				// Check if the input is valid
-				while(!isInteger(editUP) || Integer.valueOf(editUP)<0 || Integer.valueOf(editUP)>3)
+				while(!isInteger(editUP) || Integer.valueOf(editUP)<0 || Integer.valueOf(editUP)>2)
 				{
 					System.out.println("*   *   *   *   *   *");
 					System.out.println("Invalid input! Please try again");
 
 					System.out.println("What do you want to edit: "
-							+ "\n" + "Enter '1' --- Full Name" 
-							+ "\n" + "Enter '2' --- Password" 
-							+ "\n" + "Enter '3' --- Primary Doctor" 
+							+ "\n" + "Enter '1' --- Password" 
+							+ "\n" + "Enter '2' --- Primary Doctor" 
 							+ "\n" + "Enter '0' --- Cancel"  
 							+ "\n" + "Enter you option: "
 							);
@@ -232,38 +207,8 @@ public class DoctorApp {
 					System.out.println("No changes in user profile");
 				}
 
-				/** Edit full name **/
-				else if(editUP.equals("1"))
-				{
-					System.out.print("Please enter your new full name: ");
-					String newFullName = in.nextLine();
-
-					// Check if the input is not null or blank space
-					while(newFullName==null || newFullName.trim().isEmpty())
-					{
-						System.out.println("*   *   *   *   *   *");
-						System.out.println("Invalid input! Please try again");
-
-						System.out.println("Please enter your new full name: "
-								);
-						newFullName = in.nextLine();
-					}
-
-					// **** UPDATE PublicUser in db
-					// Success message
-					//if(success) {
-					System.out.println("Successfully changed full name!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change full name");
-
-					System.out.println("*   *   *   *   *   *");
-					//}
-				}
-
 				/** Edit Password **/
-				else if(editUP.equals("2"))
+				else if(editUP.equals("1"))
 				{
 					System.out.print("Please enter your new password: ");
 					String newPassword = in.nextLine();
@@ -278,38 +223,27 @@ public class DoctorApp {
 								);
 						newPassword = in.nextLine();
 					}
-
-					// **** UPDATE PublicUser in db
-					// Success message	
-					//if(success) {
-					System.out.println("Successfully changed password!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change password");
-
-					System.out.println("*   *   *   *   *   *");
-
-					//}
+					
+					f.updatePassword(currentUsername, newPassword);
 				}		
 				/** Edit Primary Doctor **/
-				else if(editUP.equals("3"))
+				else if(editUP.equals("2"))
 				{
 					System.out.print("Please enter your new Primary Doctor: ");
 					String newPrimDoctor = in.nextLine();
 
-					// **** UPDATE PublicUser in db
-					// Success message	
-					//if(success) {
-					System.out.println("Successfully changed Primary Doctor!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Primary Doctor");
+					// Check if the input is not null or blank space
+					while(newPrimDoctor==null || newPrimDoctor.trim().isEmpty())
+					{
+						System.out.println("*   *   *   *   *   *");
+						System.out.println("Invalid input! Please try again");
 
-					System.out.println("*   *   *   *   *   *");
-
-					//}
+						System.out.println("Please enter your new Primary Doctor: "
+								);
+						newPrimDoctor = in.nextLine();
+					}
+					
+					f.updatePrimaryDoctor(currentUsername, newPrimDoctor);
 				}		
 
 				break;
@@ -372,18 +306,8 @@ public class DoctorApp {
 					cleanDate = date.replaceAll("-","");
 				}
 
-
-				// **** INSERT new vital signs to db
-				// Success message
-				//if(success) {
-				System.out.println("Successfully entered vital signs!");
-				//			}
-				//			else {
-				// Failure message
-				System.out.println("Failed to input vital signs");
-
-				System.out.println("*   *   *   *   *   *");
-				//}
+				f.insertVitals(f.getUIDFromUsername(currentUsername), bloodPressure, Integer.valueOf(glucose), Integer.valueOf(heartRate), date);
+			
 				break;
 
 				/* Edit vital signs */
@@ -441,17 +365,8 @@ public class DoctorApp {
 						newBloodPressure = in.nextLine();
 						splitNewBloodPress = newBloodPressure.split("/");
 					}
-
-					// **** UPDATE PatientVitals  in db
-					// Success message
-					//if(success) {
-					System.out.println("Successfully changed Blood Pressure!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Blood Pressure");
-
-					//}
+					System.out.println(f.getUIDFromUsername(currentUsername));
+					f.updateBloodPressure(f.getUIDFromUsername(currentUsername), newBloodPressure);
 				}
 
 				/** Edit Glucose **/
@@ -469,17 +384,7 @@ public class DoctorApp {
 						newGlucose = in.nextLine();
 					}
 
-					// **** UPDATE PatientVitals  in db
-					// Success message	
-					//if(success) {
-					System.out.println("Successfully changed Glucose!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Glucose");
-
-
-					//}
+					f.updateGlucose(f.getUIDFromUsername(currentUsername), Integer.valueOf(newGlucose));
 				}		
 				/** Edit Heart Rate **/
 				else if(editVS.equals("3"))
@@ -495,17 +400,8 @@ public class DoctorApp {
 						System.out.print("Please enter your new Heart Rate: ");
 						newHeartRate = in.nextLine();
 					}
-					// **** UPDATE PatientVitals  in db
-					// Success message	
-					//if(success) {
-					System.out.println("Successfully changed Heart Rate!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Heart Rate");
 
-
-					//}
+					f.updateHeartRate(f.getUIDFromUsername(currentUsername), Integer.valueOf(newHeartRate));
 				}		
 
 				/** Edit Date **/
@@ -526,16 +422,7 @@ public class DoctorApp {
 						cleanNewDate = newDate.replaceAll("-","");
 					}
 
-					// **** UPDATE PatientVitals  in db
-					// Success message	
-					//if(success) {
-					System.out.println("Successfully changed Date!");
-					//							}
-					//							else {
-					// Failure message
-					System.out.println("Error - Cannot change Date");
-
-					//}
+					f.updatePatientVitalsDate(f.getUIDFromUsername(currentUsername), newDate);
 				}		
 
 				break;
@@ -543,10 +430,8 @@ public class DoctorApp {
 				/* Delete vital signs */
 			case "4" :
 				System.out.println("*Delete vital signs*");
-
-
-				//delete by uID
-
+				f.deleteVitals(f.getUIDFromUsername(currentUsername));
+				
 				break;
 
 				/* Search for doctor */
@@ -694,7 +579,7 @@ public class DoctorApp {
 
 				System.out.println("Number of doctors at " + doctorCountByCity + ": ");
 
-				f.numberOfDoctorsInOffice(input);
+				f.numberOfDoctorsInOffice(doctorCountByCity);
 
 				break;
 
@@ -920,6 +805,12 @@ public class DoctorApp {
 				System.out.println("*Display my reservation*");
 				f.displayReservationWithUID(f.getUIDFromUsername(currentUsername));
 				break;
+				
+				/* Display High Risk Patients */
+			case "15" :
+				System.out.println("*Display high risk patients*");
+				f.getHighRiskPatient();
+				break;
 
 				/* Stop the engine */ 
 			case "0" :
@@ -990,6 +881,4 @@ public class DoctorApp {
 		DoctorApp da = new DoctorApp();
 		da.beforeSignIn();
 	}
-
-
 }
