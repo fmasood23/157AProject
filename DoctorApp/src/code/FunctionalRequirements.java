@@ -192,8 +192,7 @@ public class FunctionalRequirements {
 
 	public void getHighRiskPatient() {
 		try {
-			ResultSet rs = null;
-
+			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select PublicUsers.uID as uID, PublicUsers.name as name from PublicUsers " +
 					"NATURAL JOIN  PatientVitals where PatientVitals.heartRate < 60 or PatientVitals.heartRate > 100");
 			System.out.println("High Risk Patients: ");
@@ -227,7 +226,7 @@ public class FunctionalRequirements {
 		String sql = "";
 		sql = "select * from Administrator where specialty = ?";
 		try {
-			preparedStatement= conn.prepareStatement(sql);
+			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, input);
 			rs = preparedStatement.executeQuery();
 
