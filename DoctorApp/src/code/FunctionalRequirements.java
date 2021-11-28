@@ -219,13 +219,14 @@ public class FunctionalRequirements {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 	public void searchForDoctorSpecialty(String input) {
 		String sql = "";
 		sql = "select * from Administrator where specialty = ?";
 		try {
-			preparedStatement= conn.prepareStatement(sql);
+			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, input);
 			rs = preparedStatement.executeQuery();
 
@@ -524,4 +525,5 @@ public class FunctionalRequirements {
 		System.out.println(f.getNameFromUsername("jdoe"));
 
 	}
+
 }
