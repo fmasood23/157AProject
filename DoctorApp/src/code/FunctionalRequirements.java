@@ -109,7 +109,7 @@ public class FunctionalRequirements {
 	public void updateGlucose(int id, int glucose) {
 		String sql = null;
 
-		sql = "update PatientVitals set glucose = ? where id = ?";
+		sql = "update PatientVitals set glucose = ? where uID = ?";
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setInt(1, glucose);
@@ -126,7 +126,7 @@ public class FunctionalRequirements {
 	public void updateBloodPressure(int id, String bloodPressure) {
 		String sql = null;
 
-		sql = "update PatientVitals set bloodPressure = ? where id = ?";
+		sql = "update PatientVitals set bloodPressure = ? where uID = ?";
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, bloodPressure);
@@ -140,16 +140,16 @@ public class FunctionalRequirements {
 		}
 	}
 
-	public void updateTemperature(int id, int temperature) {
+	public void updatePatientVitalsDate(int id, String date) {
 		String sql = null;
 
-		sql = "update PatientVitals set temperature = ? where id = ?";
+		sql = "update PatientVitals set date = ? where uID = ?";
 		try {
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setInt(1, temperature);
+			preparedStatement.setString(1, date);
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
-			System.out.println("Vital Body Temperature for [" + id + "] Updated Successfully...");
+			System.out.println("Vital Date for [" + id + "] Updated Successfully...");
 			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -160,7 +160,7 @@ public class FunctionalRequirements {
 	public void updateHeartRate(int id, int heartRate) {
 		String sql = null;
 
-		sql = "update PatientVitals set heartRate = ? where id = ?";
+		sql = "update PatientVitals set heartRate = ? where uID = ?";
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setInt(1, heartRate);
@@ -176,7 +176,7 @@ public class FunctionalRequirements {
 
 	public void deleteVitals(int id) {
 		String sql = null;
-		sql = "delete from PatientVitals where id = ?";
+		sql = "delete from PatientVitals where uID = ?";
 
 		try {
 			preparedStatement = conn.prepareStatement(sql);
@@ -525,4 +525,5 @@ public class FunctionalRequirements {
 		System.out.println(f.getNameFromUsername("jdoe"));
 
 	}
+
 }

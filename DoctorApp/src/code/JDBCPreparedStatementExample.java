@@ -6,11 +6,11 @@ import java.sql.*;
 public class JDBCPreparedStatementExample 
 {
    // JDBC driver name and database URL
-	static final String DB_URL = "jdbc:mysql://localhost/doctorapp?serverTimezone=UTC";
+	static final String DB_URL = "jdbc:mysql://localhost/";
 
    //  Database credentials
    static final String USER = "root";
-   static final String PASS = "farah1603";
+   static final String PASS = "default$";
    private static Connection conn = null;
    private static PreparedStatement preparedStatement = null;
    

@@ -12,42 +12,23 @@ public class JDBCExample {
    
    static final String USER = "root";
    static final String PASS = "farah1603";
-   private static PreparedStatement preparedStatement = null;
-
    
    public static void main(String[] args) {
    Connection conn = null;
    Statement stmt = null;
    ResultSet rs = null;
    try{
-	   System.out.println("Connecting to database...");
-	   conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	   
-	   Scanner in = new Scanner(System.in);
-	   System.out.println("Enter User ID");
-	   int input = in.nextInt();
 
-	   String sql = "";
-	   sql = "select Administrator.doctorName, Reservation.appointmentDate, Reservation.appointmentTime from Reservation, Administrator where Reservation.dID=Administrator.dID and Reservation.uID = ?";
-	   preparedStatement= conn.prepareStatement(sql);
-	   preparedStatement.setInt(1, input);
-	   rs = preparedStatement.executeQuery();
+      System.out.println("Connecting to database...");
+      conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-	   while(rs.next()){
-		   System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName") + "    Appointment Date= " + rs.getDate("Reservation.appointmentDate")  + "    Appointment Time= " + rs.getTime("Reservation.appointmentTime"));
-	   }
-
-	   //      while(rs.next()){
-//          System.out.println("Review Name= " + rs.getString("reviewer") + "        Rating= " + rs.getInt("stars"));
-//      }
-//
-//      System.out.println("Creating a statement...");
-//      stmt = conn.createStatement();
-//      rs = stmt.executeQuery("select * from Reviews, Administrator where Reviews.dID = Administrator.dID;");
-//	   
-//      while(rs.next()){
-//        System.out.println("Review Name= " + rs.getString("Reviews.reviewer") + "        Rating= " + rs.getInt("Reviews.stars"));
-//    }
+      System.out.println("Creating a statement...");
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery("select Administrator.doctorName, Reservation.appointmentDate, Reservation.appointmentTime from Reservation, Administrator where Reservation.uID = 1007 and Reservation.dID=Administrator.dID");
+      
+      while(rs.next()){
+          System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName") + "    Appointment Date= " + rs.getDate("Reservation.appointmentDate")  + "    Appointment Time= " + rs.getTime("Reservation.appointmentTime"));
+      }
 
       
    }catch(SQLException se){
