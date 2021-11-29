@@ -31,7 +31,7 @@ create table PatientVitals
     glucose INT,
     heartRate INT,
     date DATE,
-    FOREIGN KEY (uID) REFERENCES PublicUsers(uID)
+    FOREIGN KEY (uID) REFERENCES PublicUsers(uID) ON UPDATE CASCADE ON DELETE CASCADE
  );
 
 create table Administrator
@@ -67,7 +67,7 @@ create table Offices
     appointmentTime TIME,
     uID INT,
     dID INT,
-    FOREIGN KEY (uID) REFERENCES PublicUsers(uID),
+    FOREIGN KEY (uID) REFERENCES PublicUsers(uID) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (dID) REFERENCES Administrator(dID)
  );
  
@@ -196,6 +196,60 @@ FOR EACH ROW
 BEGIN
 	IF NEW.stars>5 or NEW.stars<1
   	THEN signal sqlstate '45000' set message_text = 'TriggerError: Number of stars cannot be less than 1 or greater than 5';
+	END IF;
+END;
+//
+delimiter ;
+
+DROP TRIGGER IF EXISTS Check_User_Duplicate_Before_Insert_Reservation;
+delimiter //
+CREATE TRIGGER Check_User_Duplicate_Before_Insert_Reservation
+BEFORE INSERT ON Reservation
+FOR EACH ROW
+BEGIN
+	IF exists (select * from Reservation 
+    where appointmentDate = NEW.appointmentDate and appointmentTime = NEW.appointmentTime and uID = NEW.uID)
+	THEN signal sqlstate '45000' set message_text = 'TriggerError: Duplicate appointments - you already have an appointment at this time';
+	END IF;
+END;
+//
+delimiter ;
+
+DROP TRIGGER IF EXISTS Check_User_Duplicate_Before_Update_Reservation;
+delimiter //
+CREATE TRIGGER Check_User_Duplicate_Before_Update_Reservation
+BEFORE UPDATE ON Reservation
+FOR EACH ROW
+BEGIN
+	IF exists (select * from Reservation 
+    where appointmentDate = NEW.appointmentDate and appointmentTime = NEW.appointmentTime and uID = NEW.uID)
+	THEN signal sqlstate '45000' set message_text = 'TriggerError: Duplicate appointments - you already have an appointment at this time';
+	END IF;
+END;
+//
+delimiter ;
+
+DROP TRIGGER IF EXISTS update_valid_primaryDoctor_in_PublicUsers;
+delimiter //
+CREATE TRIGGER update_valid_primaryDoctor_in_PublicUsers
+BEFORE UPDATE ON PublicUsers
+FOR EACH ROW
+BEGIN
+	IF NEW.primaryDoctor not in (select doctorName from Administrator)
+	THEN SET NEW.primaryDoctor = 'Other Doctor';
+	END IF;
+END;
+//
+delimiter ;
+
+DROP TRIGGER IF EXISTS insert_valid_primaryDoctor_in_PublicUsers;
+delimiter //
+CREATE TRIGGER insert_valid_primaryDoctor_in_PublicUsers
+BEFORE INSERT ON PublicUsers
+FOR EACH ROW
+BEGIN
+	IF NEW.primaryDoctor not in (select doctorName from Administrator)
+	THEN SET NEW.primaryDoctor='Other Doctor';
 	END IF;
 END;
 //
