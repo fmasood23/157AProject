@@ -38,6 +38,107 @@ public class FunctionalRequirements {
 	}
 
 	/**
+	 * This method displays the doctors with 2 or more appointments on a specific date
+	 * @param date is the input specific date
+	 */
+	public void getDoctorsWith2MoreAppoints(String date) {
+		String sql = null;
+		sql = "select doctorName from Administrator " +
+				"where dID in ( " +
+				"select dID from reservation " +
+				"where appointmentDate = ? " +
+				"group by dID having count(*) >= 2)";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, date);
+			rs = preparedStatement.executeQuery();
+
+			System.out.println("*****Printing Doctors with 2 or more Appointments on : " + date + "*****");
+			while(rs.next()){
+				System.out.println("Doctor Name= " + rs.getString("doctorName"));
+			}
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method displays the doctors the highest stars in review
+	 */
+	public void getDoctorHighestStar() {
+		String sql = null;
+		sql = "select distinct a.DoctorName from reviews r, administrator a " +
+				"where r.dID = a.dID and stars >= all(select stars from reviews)";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+
+			System.out.println("*****Printing Doctors with the Highest Stars in Review *****");
+			while(rs.next()){
+				System.out.println("Doctor Name= " + rs.getString("doctorName"));
+			}
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method displays all doctors' average stars in review
+	 */
+	public void getAllDoctorAvgStar() {
+		String sql = null;
+		sql = "select doctorName, avgStar from Administrator a " +
+				"left outer join ( " +
+				"select dID, avg(stars) as avgStar from reviews group by dID) r " +
+				"on a.dID = r.dID";
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+
+			System.out.println("*****Printing All Doctors' Average Stars in Review *****");
+			while(rs.next()){
+				System.out.println("Doctor Name= " + rs.getString("doctorName") + ", Average Stars = " + rs.getInt("avgStar"));
+			}
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * This method displays the doctors with specific speciality and doctors in a specific location
+	 * @param speciality is doctor's speciality
+	 * @param location is doctor's office location
+	 */
+	public void getDoctorsWithSpecialityLocation(String speciality, String location) {
+		String sql = null;
+		sql = "select doctorName from Administrator where dID in ( " +
+				"select dID from Administrator where specialty = ? " +
+				"union " +
+				"select distinct dID from Offices where cityName = ? )";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, speciality);
+			preparedStatement.setString(1, location);
+			rs = preparedStatement.executeQuery();
+
+			System.out.println("*****Printing Doctors with speciality " + speciality + " and Doctors in " + location + "*****");
+			while(rs.next()){
+				System.out.println("Doctor Name= " + rs.getString("doctorName"));
+			}
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * This method creates an account
 	 * @param fullName is the name
 	 * @param username is the username
