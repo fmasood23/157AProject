@@ -13,13 +13,14 @@ public class DoctorApp {
 	public void beforeSignIn()
 	{
 		Scanner in = new Scanner(System.in);
+		boolean isValid = false;
 
 		// gets input from user
 		System.out.println("Please choose an option: "
 				+ "\n" + "Enter '1' --- Create an account" 
 				+ "\n" + "Enter '2' --- Sign in" 
 				+ "\n" + "Enter '0' --- Quit"  
-				+ "\n" + "Enter you option: "
+				+ "\n" + "Enter your option: "
 				);
 
 		String input = in.nextLine();
@@ -32,7 +33,7 @@ public class DoctorApp {
 					+ "\n" + "Enter '1' --- Create an account" 
 					+ "\n" + "Enter '2' --- Sign in"  
 					+ "\n" + "Enter '0' --- Quit"  
-					+ "\n" + "Enter you option: "
+					+ "\n" + "Enter your option: "
 					);
 			input = in.nextLine();
 		}
@@ -123,9 +124,18 @@ public class DoctorApp {
 				signInPassword = in.nextLine();
 			}
 
-			System.out.println("Successfully signed in!");
 			currentUsername = signInUsername; // keep track of who's the current user
-			afterSignIn();
+			if(signInPassword.equals(f.getPassFromUsername(currentUsername))) {
+				isValid = true;
+			}
+
+			if(isValid) {
+				System.out.println("Successfully signed in!");
+				afterSignIn();
+			}
+			else {
+				System.out.println("Incorrect login credentials");
+			}
 
 		}		
 	}
@@ -165,8 +175,9 @@ public class DoctorApp {
 					+ "\n" + "Enter '13' --- Cancel reservation"  
 					+ "\n" + "Enter '14' --- Display my reservation"
 					+ "\n" + "Enter '15' --- Display high risk patients (**method for Administrator**)"
+					+ "\n" + "Enter '16' --- Archive Users (**method for Administrator**)"
 					+ "\n" + "Enter '0' --- Quit"  
-					+ "\n" + "Enter you option: "
+					+ "\n" + "Enter your option: "
 					);
 
 			String input = in.nextLine();
@@ -223,7 +234,7 @@ public class DoctorApp {
 								);
 						newPassword = in.nextLine();
 					}
-					
+
 					f.updatePassword(currentUsername, newPassword);
 				}		
 				/** Edit Primary Doctor **/
@@ -242,7 +253,7 @@ public class DoctorApp {
 								);
 						newPrimDoctor = in.nextLine();
 					}
-					
+
 					f.updatePrimaryDoctor(currentUsername, newPrimDoctor);
 				}		
 
@@ -307,7 +318,7 @@ public class DoctorApp {
 				}
 
 				f.insertVitals(f.getUIDFromUsername(currentUsername), bloodPressure, Integer.valueOf(glucose), Integer.valueOf(heartRate), date);
-			
+
 				break;
 
 				/* Edit vital signs */
@@ -431,7 +442,7 @@ public class DoctorApp {
 			case "4" :
 				System.out.println("*Delete vital signs*");
 				f.deleteVitals(f.getUIDFromUsername(currentUsername));
-				
+
 				break;
 
 				/* Search for doctor */
@@ -805,11 +816,33 @@ public class DoctorApp {
 				System.out.println("*Display my reservation*");
 				f.displayReservationWithUID(f.getUIDFromUsername(currentUsername));
 				break;
-				
+
 				/* Display High Risk Patients */
 			case "15" :
 				System.out.println("*Display high risk patients*");
 				f.getHighRiskPatient();
+				break;
+
+			case "16" :
+				System.out.println("*Archive users created before given date *");
+
+				System.out.print("Please enter the date(eg. 2021-06-01): ");
+				String enteredDate = in.nextLine();
+				String cleanEnteredDate = enteredDate.replaceAll("-","");
+
+				// Check if the input is valid
+				while(!isDate(cleanEnteredDate) || !enteredDate.contains("-"))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Date (eg. 2021-06-01): ");
+					enteredDate = in.nextLine();
+					cleanEnteredDate = enteredDate.replaceAll("-","");
+				}
+
+				f.archiving(enteredDate);
+
 				break;
 
 				/* Stop the engine */ 

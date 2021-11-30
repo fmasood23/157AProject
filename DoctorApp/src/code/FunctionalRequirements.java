@@ -13,7 +13,7 @@ public class FunctionalRequirements {
 	static final String DB_URL = "jdbc:mysql://localhost/doctorapp?serverTimezone=UTC";
 
 	static final String USER = "root";
-	static final String PASS = "root";
+	static final String PASS = "farah1603";
 	private static PreparedStatement preparedStatement = null;
 
 	public Connection conn = null;
@@ -235,7 +235,6 @@ public class FunctionalRequirements {
 				System.out.println("Doctor Name= " + rs.getString("doctorName"));
 			}
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -252,7 +251,6 @@ public class FunctionalRequirements {
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName") + "        City= " + rs.getString("Offices.cityName"));
 			}
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -271,11 +269,10 @@ public class FunctionalRequirements {
 			System.out.println("*****Printing Doctors with name: " + input + "*****");
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
-						+ "    Appointment Date=" + rs.getDate("Reservation.appointmentDate"));
+				+ "    Appointment Date=" + rs.getDate("Reservation.appointmentDate"));
 			}
 
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -283,19 +280,18 @@ public class FunctionalRequirements {
 
 	public void searchForOfficeWithDoctorName(String input) {
 		try {String sql = "";
-			sql = "select Administrator.dID, Administrator.doctorName, Offices.cityName from Administrator, Offices where Administrator.dID = Offices.dID and Administrator.doctorName = ?";
-			preparedStatement= conn.prepareStatement(sql);
-			preparedStatement.setString(1, input);
-			rs = preparedStatement.executeQuery();
+		sql = "select Administrator.dID, Administrator.doctorName, Offices.cityName from Administrator, Offices where Administrator.dID = Offices.dID and Administrator.doctorName = ?";
+		preparedStatement= conn.prepareStatement(sql);
+		preparedStatement.setString(1, input);
+		rs = preparedStatement.executeQuery();
 
-			System.out.println("*****Printing Offices with Doctor name: " + input + "*****");
-			while(rs.next()){
-				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
-						+ "    City=" + rs.getString("Offices.cityName"));
-			}
+		System.out.println("*****Printing Offices with Doctor name: " + input + "*****");
+		while(rs.next()){
+			System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
+			+ "    City=" + rs.getString("Offices.cityName"));
+		}
 
-			System.out.println("*****Done*****");
-			System.out.println();
+		System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -314,7 +310,6 @@ public class FunctionalRequirements {
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName"));
 			}
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -334,7 +329,6 @@ public class FunctionalRequirements {
 			}
 
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -353,7 +347,6 @@ public class FunctionalRequirements {
 			}
 
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -370,7 +363,6 @@ public class FunctionalRequirements {
 			preparedStatement.executeUpdate();
 
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -386,7 +378,6 @@ public class FunctionalRequirements {
 			preparedStatement.executeUpdate();
 
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -405,7 +396,6 @@ public class FunctionalRequirements {
 
 
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -422,7 +412,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(4, input2);
 			preparedStatement.executeUpdate();
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -439,7 +428,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(2, input2);
 			preparedStatement.executeUpdate();
 			System.out.println("*****Done*****");
-			System.out.println();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -460,7 +448,21 @@ public class FunctionalRequirements {
 			}
 
 			System.out.println("*****Done*****");
-			System.out.println();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void archiving(String inputDate) {
+		try {
+			String sql = "";
+			String input = inputDate + " 00:00:00";
+			sql = "call haveNotModified(?);";
+			preparedStatement= conn.prepareStatement(sql);
+			preparedStatement.setString(1, input);
+			rs = preparedStatement.executeQuery();
+
+			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -519,11 +521,28 @@ public class FunctionalRequirements {
 		}
 		return fullname;
 	}
+	
+	public String getPassFromUsername(String name) {
+		String fullname = "";
+		try {
+			String sql = "";
+			sql = "select * from PublicUsers where username=?";
+			preparedStatement= conn.prepareStatement(sql);
+			preparedStatement.setString(1, name);
+			rs = preparedStatement.executeQuery();
+
+			while(rs.next()){
+				fullname = rs.getString("password");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return fullname;
+	}
 
 	public static void main(String[] args) {
 		FunctionalRequirements f = new FunctionalRequirements();
-		System.out.println(f.getNameFromUsername("jdoe"));
-
+		System.out.println(f.getPassFromUsername("jdoe"));
 	}
 
 }
