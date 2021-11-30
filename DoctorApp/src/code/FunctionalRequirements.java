@@ -8,6 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
+/**
+ * This class handles all queries to the database needed in our application
+ * @author Farah Masood, Nhien Lam, MinJie Xia
+ *
+ */
 public class FunctionalRequirements {
 
 	static final String DB_URL = "jdbc:mysql://localhost/doctorapp?serverTimezone=UTC";
@@ -20,10 +25,10 @@ public class FunctionalRequirements {
 	public Statement stmt = null;
 	public ResultSet rs = null;
 
-	public Scanner in;
-
+	/**
+	 * Initializes the database connection
+	 */
 	public FunctionalRequirements() {
-		in = new Scanner(System.in);
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		} catch (SQLException e) {
@@ -32,6 +37,13 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This method creates an account
+	 * @param fullName is the name
+	 * @param username is the username
+	 * @param password is the password
+	 * @param primaryDoctor is the primary doctor
+	 */
 	public void createAccount(String fullName, String username, String password, String primaryDoctor) {
 		String sql = null;
 		sql = "insert into PublicUsers "
@@ -52,6 +64,11 @@ public class FunctionalRequirements {
 
 	}
 
+	/**
+	 * This changes the user password
+	 * @param username is the username
+	 * @param password is the new password
+	 */
 	public void updatePassword(String username, String password) {
 		String sql = null;
 		sql = "update PublicUsers set password = ? where username = ?";
@@ -69,6 +86,11 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This updates a users doctor
+	 * @param username is the user
+	 * @param primaryDoctor is the new doctor
+	 */
 	public void updatePrimaryDoctor(String username, String primaryDoctor) {
 		String sql = null;
 		sql = "update PublicUsers set primaryDoctor = ? where username = ?";
@@ -86,6 +108,14 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This inserts a patients vitals
+	 * @param id is the user id
+	 * @param bloodPressure is the blood pressure
+	 * @param glucose is the glucose
+	 * @param heartRate is the heart rate
+	 * @param date is the date of the taken vitals
+	 */
 	public void insertVitals (int id, String bloodPressure, int glucose, int heartRate, String date) {
 		String sql = null;
 		sql = "insert into PatientVitals values (?, ?, ?, ?, ?)";
@@ -106,6 +136,11 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This updates a patients vitals, specifically glucose
+	 * @param id is the patient
+	 * @param glucose is the new glucose.
+	 */
 	public void updateGlucose(int id, int glucose) {
 		String sql = null;
 
@@ -123,6 +158,11 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This updates a patients vitals, specifically blood pressure
+	 * @param id is the patient
+	 * @param bloodPressure is the new blood pressure
+	 */
 	public void updateBloodPressure(int id, String bloodPressure) {
 		String sql = null;
 
@@ -140,6 +180,11 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This updates a patients vitals, specifically the date
+	 * @param id is the patient
+	 * @param date is the new date
+	 */
 	public void updatePatientVitalsDate(int id, String date) {
 		String sql = null;
 
@@ -157,6 +202,11 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This updates a patients vitals, specifically heart rate
+	 * @param id is the patient
+	 * @param heartRate is the new heart rate
+	 */
 	public void updateHeartRate(int id, int heartRate) {
 		String sql = null;
 
@@ -174,6 +224,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This deletes a patients vitals
+	 * @param id is the patient
+	 */
 	public void deleteVitals(int id) {
 		String sql = null;
 		sql = "delete from PatientVitals where uID = ?";
@@ -190,6 +244,9 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This calculates an at risk patient 
+	 */
 	public void getHighRiskPatient() {
 		try {
 			stmt = conn.createStatement();
@@ -205,6 +262,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This prints patients who are at risk
+	 * @param rs are the patients at risk
+	 */
 	public void printResultSetfromHighRiskPatient(ResultSet rs)
 	{
 		try {
@@ -222,6 +283,10 @@ public class FunctionalRequirements {
 
 	}
 
+	/**
+	 * This searches for doctors based on specialties
+	 * @param input is the specialty
+	 */
 	public void searchForDoctorSpecialty(String input) {
 		String sql = "";
 		sql = "select * from Administrator where specialty = ?";
@@ -241,6 +306,9 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This method allows users to see all doctors
+	 */
 	public void seeAllDoctors() {
 		try {
 			stmt = conn.createStatement();
@@ -257,6 +325,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This method allows users to search based on doctor name
+	 * @param input is the doctor name
+	 */
 	public void searchBasedOnDoctorName(String input) {
 		try {
 			String sql = "";
@@ -278,6 +350,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This allows users to search for offices given the doctor name
+	 * @param input is the doctor name
+	 */
 	public void searchForOfficeWithDoctorName(String input) {
 		try {String sql = "";
 		sql = "select Administrator.dID, Administrator.doctorName, Offices.cityName from Administrator, Offices where Administrator.dID = Offices.dID and Administrator.doctorName = ?";
@@ -297,6 +373,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This allows users to search for doctors with the city name
+	 * @param input
+	 */
 	public void searchForOfficeWithCityName(String input) {
 		try {
 			String sql = "";
@@ -305,7 +385,7 @@ public class FunctionalRequirements {
 			preparedStatement.setString(1, input);
 			rs = preparedStatement.executeQuery();
 
-			System.out.println("*****Printing Offices with City name: " + input + "*****");
+			System.out.println("*****Printing Doctors with City name: " + input + "*****");
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName"));
 			}
@@ -315,6 +395,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This returns the number of doctors in a given office
+	 * @param input is the city name
+	 */
 	public void numberOfDoctorsInOffice(String input) {
 		try {
 			String sql = "";
@@ -334,6 +418,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This returns all reviews for a given doctor
+	 * @param input is the doctor name
+	 */
 	public void seeReviews(int input) {
 		try {
 			String sql = "";
@@ -352,6 +440,12 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This allows users to write reviews
+	 * @param input1 is the doctor id
+	 * @param input is the reviewer
+	 * @param input2 is the number of stars
+	 */
 	public void writeReviews(String input1, int input, int input2) {
 		try {
 			String sql = "";
@@ -368,6 +462,11 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This allows users to delete reviews
+	 * @param input1 is the doctor id
+	 * @param input is the reviewer
+	 */
 	public void deleteReviews(String input1, int input) {
 		try {
 			String sql = "";
@@ -383,7 +482,12 @@ public class FunctionalRequirements {
 		}
 	}
 
-
+	/**
+	 * This allows users to edit the number of stars of a review
+	 * @param input is the new number of stars
+	 * @param input1 is the doctor id
+	 * @param input2 is the reviewer
+	 */
 	public void editReviews(int input, String input1, int input2) {
 		try {
 			String sql = "";
@@ -401,6 +505,13 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This allows users to make an appointment
+	 * @param input1 is the appointment date
+	 * @param input3 is the appointment time
+	 * @param input is the user id
+	 * @param input2 is the doctor id
+	 */
 	public void makeReservation(String input1, String input3, int input, int input2) {
 		try {
 			String sql = "";
@@ -416,7 +527,14 @@ public class FunctionalRequirements {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * This allows a user to cancel a reservation
+	 * @param input is the user id
+	 * @param input2 is the doctor id
+	 * @param input1 is the appointment date
+	 * @param input3 is the appointment time
+	 */
 	public void cancelReservation(int input, int input2, String input1, String input3) {
 		try {
 			String sql = "";
@@ -433,6 +551,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This allows users to access each of their reservations
+	 * @param input is the user id
+	 */
 	public void displayReservationWithUID(int input) {
 		try {
 			String sql = "";
@@ -453,6 +575,10 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This carries out the stored procedure to archive users given a date
+	 * @param inputDate is the date to use in archiving
+	 */
 	public void archiving(String inputDate) {
 		try {
 			String sql = "";
@@ -468,6 +594,11 @@ public class FunctionalRequirements {
 		}
 	}
 
+	/**
+	 * This gets a user id given a username
+	 * @param username is the username
+	 * @return the user id
+	 */
 	public int getUIDFromUsername(String username) {
 		int uid = 0;
 		try {
@@ -486,6 +617,11 @@ public class FunctionalRequirements {
 		return uid;
 	}
 
+	/**
+	 * This gets a doctor id given a doctor name
+	 * @param name is the doctor name
+	 * @return the doctor id
+	 */
 	public int getDIDFromDoctorName(String name) {
 		int did = 0;
 		try {
@@ -504,6 +640,11 @@ public class FunctionalRequirements {
 		return did;
 	}
 
+	/**
+	 * This method gets a full name from a username
+	 * @param name is the username
+	 * @return the full name
+	 */
 	public String getNameFromUsername(String name) {
 		String fullname = "";
 		try {
@@ -522,6 +663,11 @@ public class FunctionalRequirements {
 		return fullname;
 	}
 	
+	/**
+	 * This gets a password given a username
+	 * @param name is the username
+	 * @return the password
+	 */
 	public String getPassFromUsername(String name) {
 		String fullname = "";
 		try {

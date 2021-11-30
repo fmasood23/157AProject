@@ -838,6 +838,7 @@ public class DoctorApp {
 
 					System.out.print("Please enter Date (eg. 2021-06-01): ");
 					enteredDate = in.nextLine();
+					enteredDate.trim();
 					cleanEnteredDate = enteredDate.replaceAll("-","");
 				}
 
