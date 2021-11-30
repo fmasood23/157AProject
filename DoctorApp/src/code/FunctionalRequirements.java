@@ -124,7 +124,7 @@ public class FunctionalRequirements {
 		try {
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.setString(1, speciality);
-			preparedStatement.setString(1, location);
+			preparedStatement.setString(2, location);
 			rs = preparedStatement.executeQuery();
 
 			System.out.println("*****Printing Doctors with speciality " + speciality + " and Doctors in " + location + "*****");
