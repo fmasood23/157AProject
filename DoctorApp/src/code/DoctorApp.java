@@ -176,6 +176,10 @@ public class DoctorApp {
 					+ "\n" + "Enter '14' --- Display my reservation"
 					+ "\n" + "Enter '15' --- Display high risk patients (**method for Administrator**)"
 					+ "\n" + "Enter '16' --- Archive Users (**method for Administrator**)"
+					+ "\n" + "Enter '17' --- Display doctors with 2 or more appointments in a specific date"
+					+ "\n" + "Enter '18' --- Display doctors with the highest stars in Review"
+					+ "\n" + "Enter '19' --- Display all doctors’ average review stars"
+					+ "\n" + "Enter '20' --- Display doctors with specific specialty and doctors in specific location"
 					+ "\n" + "Enter '0' --- Quit"  
 					+ "\n" + "Enter your option: "
 					);
@@ -822,7 +826,8 @@ public class DoctorApp {
 				System.out.println("*Display high risk patients*");
 				f.getHighRiskPatient();
 				break;
-
+				
+				/* Archive Users */
 			case "16" :
 				System.out.println("*Archive users created before given date *");
 
@@ -845,6 +850,78 @@ public class DoctorApp {
 				f.archiving(enteredDate);
 
 				break;
+				
+				/* Display doctors with 2 or more appointments in a specific date */
+			case "17" :
+				System.out.println("*Display doctors with 2 or more appointments in a specific date*");
+				
+				// get user input
+				System.out.print("Please enter Date (eg. 2021-06-01): ");
+				String moreDate = in.nextLine();
+				String cleanMoreDate = moreDate.replaceAll("-","")
+
+				
+				// Check if the input is valid
+				while(!isDate(cleanMoreDate) || !moreDate.contains("-"))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Date (eg. 2021-06-01): ");
+					moreDate = in.nextLine();
+					cleanMoreDate = moreDate.replaceAll("-","");
+				}
+				
+				f.getDoctorsWith2MoreAppoints(moreDate);
+				break;
+				
+				/* Display doctors with the highest stars in Review */
+			case "18" :
+				System.out.println("*Display doctors with the highest stars in Review*");
+				f.getDoctorHighestStar();
+				break;
+				
+				/* Display all doctors’ average review stars */
+			case "19" :
+				System.out.println("*Display all doctors’ average review stars*");
+				f.getAllDoctorAvgStar();
+				break;
+				
+				/* Display doctors with specific specialty and doctors in specific location */
+			case "20" :
+				System.out.println("*Display doctors with specific specialty and doctors in specific location*");
+				
+				//get user input for specialty
+				System.out.print("Please enter Doctor's Specialty: ");
+				String sSpecialty = in.nextLine();
+
+				// Check if the input is not null or blank space
+				while(sSpecialty==null || sSpecialty.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Specialty: ");
+					sSpecialty = in.nextLine();
+				}
+				
+				// get user input for city
+				System.out.print("Please enter City Name: ");
+				String sLocation = in.nextLine();
+
+				// Check if the input is not null or blank space
+				while(sLocation==null || sLocation.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter City Name: ");
+					sLocation = in.nextLine();
+				}
+				
+				f.getDoctorsWithSpecialityLocation(sSpecialty, sLocation);
+				break;
+				
 
 				/* Stop the engine */ 
 			case "0" :
