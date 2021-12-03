@@ -3,6 +3,11 @@ package code;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
+/**
+ * This class is the runner class for our application
+ * @author Farah Masood, Nhien Lam, MinJie Xia
+ *
+ */
 public class DoctorApp {
 	private String currentUsername;
 	private FunctionalRequirements f = new FunctionalRequirements();

@@ -18,7 +18,7 @@ public class FunctionalRequirements {
 	static final String DB_URL = "jdbc:mysql://localhost/doctorapp?serverTimezone=UTC";
 
 	static final String USER = "root";
-	static final String PASS = "root";
+	static final String PASS = "farah1603";
 	private static PreparedStatement preparedStatement = null;
 
 	public Connection conn = null;
@@ -57,7 +57,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("doctorName"));
 			}
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,7 +78,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("doctorName"));
 			}
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,7 +101,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("doctorName") + ", Average Stars = " + rs.getInt("avgStar"));
 			}
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,7 +128,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("doctorName"));
 			}
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -157,7 +153,6 @@ public class FunctionalRequirements {
 			preparedStatement.setString(4, primaryDoctor);
 			preparedStatement.executeUpdate();
 			System.out.println("Account [" + username + "] Created Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,7 +175,6 @@ public class FunctionalRequirements {
 			preparedStatement.setString(2, username);
 			preparedStatement.executeUpdate();
 			System.out.println("Account [" + username + "] Updated Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -202,7 +196,6 @@ public class FunctionalRequirements {
 			preparedStatement.setString(2, username);
 			preparedStatement.executeUpdate();
 			System.out.println("Account [" + username + "] Updated Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -230,7 +223,6 @@ public class FunctionalRequirements {
 			preparedStatement.setString(5, date);
 			preparedStatement.executeUpdate();
 			System.out.println("Vitals for [" + id + "] Inserted Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -252,7 +244,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
 			System.out.println("Vital Glucose for [" + id + "] Updated Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -274,7 +265,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
 			System.out.println("Vital Blood Pressure for [" + id + "] Updated Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -296,7 +286,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
 			System.out.println("Vital Date for [" + id + "] Updated Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -318,7 +307,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
 			System.out.println("Vital Heart Rate for [" + id + "] Updated Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -338,7 +326,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
 			System.out.println("Vitals for [" + id + "] Deleted Successfully...");
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -355,7 +342,6 @@ public class FunctionalRequirements {
 					"NATURAL JOIN  PatientVitals where PatientVitals.heartRate < 60 or PatientVitals.heartRate > 100");
 			System.out.println("High Risk Patients: ");
 			printResultSetfromHighRiskPatient(rs);
-			System.out.println("*****Done*****");
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -400,7 +386,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("doctorName"));
 			}
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -419,7 +404,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName") + "        City= " + rs.getString("Offices.cityName"));
 			}
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -444,8 +428,6 @@ public class FunctionalRequirements {
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
 				+ "    Appointment Date=" + rs.getDate("Reservation.appointmentDate"));
 			}
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -467,8 +449,6 @@ public class FunctionalRequirements {
 			System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName")
 			+ "    City=" + rs.getString("Offices.cityName"));
 		}
-
-		System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -490,7 +470,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName"));
 			}
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -513,8 +492,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Count= " + rs.getInt("count(*)"));
 			}
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -535,8 +512,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Review Name= " + rs.getString("Reviews.reviewer") + "        Rating= " + rs.getInt("Reviews.stars"));
 			}
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -557,8 +532,6 @@ public class FunctionalRequirements {
 			preparedStatement.setString(2, input1);
 			preparedStatement.setInt(3, input2);
 			preparedStatement.executeUpdate();
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -577,8 +550,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(1, input);
 			preparedStatement.setString(2, input1);
 			preparedStatement.executeUpdate();
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -599,9 +570,6 @@ public class FunctionalRequirements {
 			preparedStatement.setString(3, input1);
 			preparedStatement.setInt(2, input);
 			preparedStatement.executeUpdate();
-
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -624,7 +592,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(3, input);
 			preparedStatement.setInt(4, input2);
 			preparedStatement.executeUpdate();
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -647,7 +614,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(1, input);
 			preparedStatement.setInt(2, input2);
 			preparedStatement.executeUpdate();
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -670,8 +636,6 @@ public class FunctionalRequirements {
 			while(rs.next()){
 				System.out.println("Doctor Name= " + rs.getString("Administrator.doctorName") + "    Appointment Date= " + rs.getDate("Reservation.appointmentDate")  + "    Appointment Time= " + rs.getTime("Reservation.appointmentTime"));
 			}
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -689,8 +653,6 @@ public class FunctionalRequirements {
 			preparedStatement= conn.prepareStatement(sql);
 			preparedStatement.setString(1, input);
 			rs = preparedStatement.executeQuery();
-
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -717,7 +679,6 @@ public class FunctionalRequirements {
 			preparedStatement.setString(4, password);
 			preparedStatement.setString(5, primaryDoctor);
 			preparedStatement.executeUpdate();
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -746,7 +707,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(4, prescriptionNumber);
 			preparedStatement.setString(5, specialty);
 			preparedStatement.executeUpdate();
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -768,7 +728,6 @@ public class FunctionalRequirements {
 			preparedStatement.setInt(1, did);
 			preparedStatement.setString(2, cityName);
 			preparedStatement.executeUpdate();
-			System.out.println("*****Done*****");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -867,10 +826,4 @@ public class FunctionalRequirements {
 		}
 		return fullname;
 	}
-
-	public static void main(String[] args) {
-		FunctionalRequirements f = new FunctionalRequirements();
-		System.out.println(f.getPassFromUsername("jdoe"));
-	}
-
 }
