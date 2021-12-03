@@ -10,7 +10,16 @@ import java.util.Scanner;
  */
 public class DoctorApp {
 	private String currentUsername;
-	private FunctionalRequirements f = new FunctionalRequirements();
+	private FunctionalRequirements f;
+
+	public DoctorApp() {
+		Scanner s = new Scanner(System.in);
+		System.out.println("Enter username to access MySQL Database:");
+		String user = s.nextLine();
+		System.out.println("Enter password to access MySQL Database:");
+		String pass = s.nextLine();
+		f = new FunctionalRequirements(user, pass);
+	}
 
 	/**
 	 * Starts the DoctorApp
@@ -836,7 +845,7 @@ public class DoctorApp {
 				System.out.println("*Display high risk patients*");
 				f.getHighRiskPatient();
 				break;
-				
+
 				/* Archive Users */
 			case "16" :
 				System.out.println("*Archive users created before given date *");
@@ -860,17 +869,17 @@ public class DoctorApp {
 				f.archiving(enteredDate);
 
 				break;
-				
+
 				/* Display doctors with 2 or more appointments in a specific date */
 			case "17" :
 				System.out.println("*Display doctors with 2 or more appointments in a specific date*");
-				
+
 				// get user input
 				System.out.print("Please enter Date (eg. 2021-06-01): ");
 				String moreDate = in.nextLine();
 				String cleanMoreDate = moreDate.replaceAll("-","");
 
-				
+
 				// Check if the input is valid
 				while(!isDate(cleanMoreDate) || !moreDate.contains("-"))
 				{
@@ -881,26 +890,26 @@ public class DoctorApp {
 					moreDate = in.nextLine();
 					cleanMoreDate = moreDate.replaceAll("-","");
 				}
-				
+
 				f.getDoctorsWith2MoreAppoints(moreDate);
 				break;
-				
+
 				/* Display doctors with the highest stars in Review */
 			case "18" :
 				System.out.println("*Display doctors with the highest stars in Review*");
 				f.getDoctorHighestStar();
 				break;
-				
+
 				/* Display all doctors’ average review stars */
 			case "19" :
 				System.out.println("*Display all doctors’ average review stars*");
 				f.getAllDoctorAvgStar();
 				break;
-				
+
 				/* Display doctors with specific specialty and doctors in specific location */
 			case "20" :
 				System.out.println("*Display doctors with specific specialty and doctors in specific location*");
-				
+
 				//get user input for specialty
 				System.out.print("Please enter Doctor's Specialty: ");
 				String sSpecialty = in.nextLine();
@@ -914,7 +923,7 @@ public class DoctorApp {
 					System.out.println("Please enter Doctor's Specialty: ");
 					sSpecialty = in.nextLine();
 				}
-				
+
 				// get user input for city
 				System.out.print("Please enter City Name: ");
 				String sLocation = in.nextLine();
@@ -928,14 +937,14 @@ public class DoctorApp {
 					System.out.println("Please enter City Name: ");
 					sLocation = in.nextLine();
 				}
-				
+
 				f.getDoctorsWithSpecialityLocation(sSpecialty, sLocation);
 				break;
-				
+
 				/* Key Violation - PublicUsers’s PRIMARY KEY(uID) */
 			case "21" :
 				System.out.println("*Key Violation - PublicUsers’s PRIMARY KEY(uID)*");
-				
+
 				// get user input
 				System.out.print("Please enter User ID (uID): ");
 				String uid21 = in.nextLine();
@@ -948,7 +957,7 @@ public class DoctorApp {
 					System.out.print("Please enter User ID (uID): ");
 					uid21 = in.nextLine();
 				}
-				
+
 				System.out.print("Please enter your full name: ");
 				String fullName21 = in.nextLine();
 				// Check if the input is not null or blank space
@@ -994,7 +1003,7 @@ public class DoctorApp {
 
 				f.createAccountKeyViolation(Integer.valueOf(uid21), fullName21, username21, password21, primaryDoctor21);
 				break;
-				
+
 				/* Key Violation - PatientVitals’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID) */
 			case "22" :
 				System.out.println("*Key Violation - PatientVitals’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID)*");
@@ -1011,7 +1020,7 @@ public class DoctorApp {
 					System.out.print("Please enter User ID (uID): ");
 					uid22 = in.nextLine();
 				}
-				
+
 				System.out.print("Please enter your Blood Pressure (eg. 120/80): ");
 				String bloodPressure22 = in.nextLine();
 				String[] splitBloodPress22 = bloodPressure22.split("/");
@@ -1067,15 +1076,15 @@ public class DoctorApp {
 				}
 
 				f.insertVitals(Integer.valueOf(uid22), bloodPressure22, Integer.valueOf(glucose22), Integer.valueOf(heartRate22), date22);
-				
+
 				break;
-				
+
 				/* Key Violation - Administrator’s PRIMARY KEY (dID) */
 				/* Key Violation - Administrator’s UNIQUE (deaNumber) */
 				/* Key Violation - Administrator’s UNIQUE (prescriptionNumber) */
 			case "23" :
 				System.out.println("*Key Violation - Create Administrator*");
-				
+
 				// gets user input
 				System.out.print("Please enter Doctor's ID (dID): ");
 				String did23 = in.nextLine();
@@ -1088,7 +1097,7 @@ public class DoctorApp {
 					System.out.print("Please enter Doctor's ID (dID): ");
 					did23 = in.nextLine();
 				}
-				
+
 				System.out.print("Please enter Doctor's Name: ");
 				String doctorName23 = in.nextLine();
 
@@ -1101,7 +1110,7 @@ public class DoctorApp {
 					System.out.println("Please enter Doctor's Name: ");
 					doctorName23 = in.nextLine();
 				}
-				
+
 				System.out.print("Please enter Doctor's deaNumber: ");
 				String deaNumber23 = in.nextLine();
 				// Check if the input is valid
@@ -1113,7 +1122,7 @@ public class DoctorApp {
 					System.out.print("Please enter Doctor's deaNumber: ");
 					deaNumber23 = in.nextLine();
 				}
-				
+
 				System.out.print("Please enter Doctor's prescription number: ");
 				String prescriptionNumber23 = in.nextLine();
 				// Check if the input is valid
@@ -1138,15 +1147,15 @@ public class DoctorApp {
 					System.out.println("Please enter Doctor's Specialty: ");
 					doctorSpecialty23 = in.nextLine();
 				}
-				
+
 				//(int did, String doctorName, int deaNumber, int prescriptionNumber, String specialty)
 				f.createAdmin(Integer.valueOf(did23), doctorName23, Integer.valueOf(deaNumber23), Integer.valueOf(prescriptionNumber23), doctorSpecialty23);
 				break;
-				
+
 				/* Key Violation - Offices’s FOREIGN KEY (dID) REFERENCES Administrator(dID) */
 			case "24" :
 				System.out.println("*Key Violation - Offices’s FOREIGN KEY (dID) REFERENCES Administrator(dID)*");
-				
+
 				// gets user input
 				System.out.print("Please enter Doctor's ID (dID): ");
 				String did24 = in.nextLine();
@@ -1159,7 +1168,7 @@ public class DoctorApp {
 					System.out.print("Please enter Doctor's ID (dID): ");
 					did24 = in.nextLine();
 				}
-				
+
 				System.out.print("Please enter City Name: ");
 				String city24 = in.nextLine();
 
@@ -1172,15 +1181,15 @@ public class DoctorApp {
 					System.out.println("Please enter City Name: ");
 					city24 = in.nextLine();
 				}
-				
+
 				//createOffice(int did, String cityName)
 				f.createOffice(Integer.valueOf(did24), city24);
 				break;
-				
+
 				/* Key Violation - Reservation’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID) */
 			case "25" :
 				System.out.println("*Key Violation - Reservation’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID)*");
-				
+
 				// gets user input
 				System.out.print("Please enter User ID (uID): ");
 				String uid25 = in.nextLine();
@@ -1193,7 +1202,7 @@ public class DoctorApp {
 					System.out.print("Please enter User ID (uID): ");
 					uid25 = in.nextLine();
 				}
-				
+
 				System.out.print("Please enter Doctor's Name: ");
 				String reserveDocName25 = in.nextLine();
 				// Check if the input is not null or blank space
@@ -1232,10 +1241,10 @@ public class DoctorApp {
 					System.out.print("Please enter the appointment time (eg. 15:00:00): ");
 					reserveTime25 = in.nextLine();
 				}
-				
+
 				f.makeReservation(reserveDate25, reserveTime25, Integer.valueOf(uid25), f.getDIDFromDoctorName(reserveDocName25));
 				break;
-				
+
 				/* Stop the engine */ 
 			case "0" :
 				System.out.println("Thank you!! See you again!");

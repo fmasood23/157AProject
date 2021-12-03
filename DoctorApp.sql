@@ -10,7 +10,6 @@ drop table if exists Offices;
 drop table if exists Reviews;
 drop table if exists Reservation;
 
-
 /* Create the schema for our tables */
 create table PublicUsers
 (
@@ -31,7 +30,8 @@ create table PatientVitals
     glucose INT,
     heartRate INT,
     date DATE,
-    FOREIGN KEY (uID) REFERENCES PublicUsers(uID) ON UPDATE CASCADE ON DELETE CASCADE
+   PRIMARY KEY(uID, date),
+   FOREIGN KEY (uID) REFERENCES PublicUsers(uID) ON UPDATE CASCADE ON DELETE CASCADE
  );
 
 create table Administrator
@@ -58,7 +58,8 @@ create table Offices
     dID INT,
     reviewer VARCHAR(100) not null,
     stars INT,
-    FOREIGN KEY (dID) REFERENCES Administrator(dID)
+   PRIMARY KEY (dID, reviewer),
+   FOREIGN KEY (dID) REFERENCES Administrator(dID)
  );
  
  create table Reservation
@@ -118,7 +119,6 @@ create table Offices
  insert into Reservation values("2021-11-05", "15:00:00", 1000, 1000);
  insert into Reservation values("2021-12-13", "16:30:00", 1007, 1007);
  insert into Reservation values("2021-11-21", "12:00:00", 1007, 1002);
-
 
 -- create relation Archive : uID, updatedAt
 CREATE TABLE Archive (

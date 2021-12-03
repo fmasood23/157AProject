@@ -17,8 +17,8 @@ public class FunctionalRequirements {
 
 	static final String DB_URL = "jdbc:mysql://localhost/doctorapp?serverTimezone=UTC";
 
-	static final String USER = "root";
-	static final String PASS = "farah1603";
+	String USER;
+	String PASS;
 	private static PreparedStatement preparedStatement = null;
 
 	public Connection conn = null;
@@ -28,7 +28,9 @@ public class FunctionalRequirements {
 	/**
 	 * Initializes the database connection
 	 */
-	public FunctionalRequirements() {
+	public FunctionalRequirements(String username, String password) {
+		USER = username;
+		PASS = password;
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		} catch (SQLException e) {
@@ -596,7 +598,7 @@ public class FunctionalRequirements {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * This allows a user to cancel a reservation
 	 * @param input is the user id
@@ -658,7 +660,7 @@ public class FunctionalRequirements {
 		}
 	}
 
-	
+
 	/**
 	 * This method creates an account to show PublicUsers’s PRIMARY KEY(uID) key constraint violation
 	 * @param uid is the user id
@@ -685,8 +687,8 @@ public class FunctionalRequirements {
 		}
 
 	}
-	
-	
+
+
 	/**
 	 * This method creates an Administrator to show key constraint violation
 	 * @param did is doctor id
@@ -713,7 +715,7 @@ public class FunctionalRequirements {
 		}
 
 	}
-	
+
 	/**
 	 * This method creates an Office to show key constraint violation
 	 * @param did is doctor id
@@ -734,7 +736,7 @@ public class FunctionalRequirements {
 		}
 
 	}
-	
+
 	/**
 	 * This gets a user id given a username
 	 * @param username is the username
@@ -803,7 +805,7 @@ public class FunctionalRequirements {
 		}
 		return fullname;
 	}
-	
+
 	/**
 	 * This gets a password given a username
 	 * @param name is the username
