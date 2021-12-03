@@ -180,6 +180,11 @@ public class DoctorApp {
 					+ "\n" + "Enter '18' --- Display doctors with the highest stars in Review"
 					+ "\n" + "Enter '19' --- Display all doctors’ average review stars"
 					+ "\n" + "Enter '20' --- Display doctors with specific specialty and doctors in specific location"
+					+ "\n" + "Enter '21' --- Key Violation - PublicUsers’s PRIMARY KEY(uID)"
+					+ "\n" + "Enter '22' --- Key Violation - PatientVitals’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID)"
+					+ "\n" + "Enter '23' --- Key Violation - Create Administrator"
+					+ "\n" + "Enter '24' --- Key Violation - Offices’s FOREIGN KEY (dID) REFERENCES Administrator(dID)"
+					+ "\n" + "Enter '25' --- Key Violation - Reservation’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID) "
 					+ "\n" + "Enter '0' --- Quit"  
 					+ "\n" + "Enter your option: "
 					);
@@ -858,7 +863,7 @@ public class DoctorApp {
 				// get user input
 				System.out.print("Please enter Date (eg. 2021-06-01): ");
 				String moreDate = in.nextLine();
-				String cleanMoreDate = moreDate.replaceAll("-","")
+				String cleanMoreDate = moreDate.replaceAll("-","");
 
 				
 				// Check if the input is valid
@@ -922,7 +927,310 @@ public class DoctorApp {
 				f.getDoctorsWithSpecialityLocation(sSpecialty, sLocation);
 				break;
 				
+				/* Key Violation - PublicUsers’s PRIMARY KEY(uID) */
+			case "21" :
+				System.out.println("*Key Violation - PublicUsers’s PRIMARY KEY(uID)*");
+				
+				// get user input
+				System.out.print("Please enter User ID (uID): ");
+				String uid21 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(uid21))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
 
+					System.out.print("Please enter User ID (uID): ");
+					uid21 = in.nextLine();
+				}
+				
+				System.out.print("Please enter your full name: ");
+				String fullName21 = in.nextLine();
+				// Check if the input is not null or blank space
+				while(fullName21==null || fullName21.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter your full name: "
+							);
+					fullName21 = in.nextLine();
+				}
+
+				System.out.print("Please enter your username: ");
+				String username21 = in.nextLine();
+
+				// Check if the input is not null or blank space
+				while(username21==null || username21.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter your username: "
+							);
+					username21 = in.nextLine();
+				}
+
+				System.out.print("Please enter your password: ");
+				String password21 = in.nextLine();
+				// Check if the input is not null or blank space
+				while(password21==null || password21.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter your password: "
+							);
+					password21 = in.nextLine();
+				}
+
+				System.out.print("Please enter the full name of your primary doctor: ");
+				String primaryDoctor21 = in.nextLine();
+
+				f.createAccountKeyViolation(Integer.valueOf(uid21), fullName21, username21, password21, primaryDoctor21);
+				break;
+				
+				/* Key Violation - PatientVitals’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID) */
+			case "22" :
+				System.out.println("*Key Violation - PatientVitals’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID)*");
+
+				// gets user input
+				System.out.print("Please enter User ID (uID): ");
+				String uid22 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(uid22))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter User ID (uID): ");
+					uid22 = in.nextLine();
+				}
+				
+				System.out.print("Please enter your Blood Pressure (eg. 120/80): ");
+				String bloodPressure22 = in.nextLine();
+				String[] splitBloodPress22 = bloodPressure22.split("/");
+
+				// Check if the input is not null or blank space
+				while(!bloodPressure22.contains("/") || !isInteger(splitBloodPress22[0]) || !isInteger(splitBloodPress22[1]))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter your Blood Pressure (eg. 120/80): ");
+					bloodPressure22 = in.nextLine();
+					splitBloodPress22 = bloodPressure22.split("/");
+				}
+
+				System.out.print("Please enter your Glucose: ");
+				String glucose22 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(glucose22))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter your Glucose: ");
+					glucose22 = in.nextLine();
+				}
+
+				System.out.print("Please enter your Heart Rate: ");
+				String heartRate22 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(heartRate22))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter your Heart Rate: ");
+					heartRate22 = in.nextLine();
+				}
+
+				System.out.print("Please enter Date (eg. 2021-06-01): ");
+				String date22 = in.nextLine();
+				String cleanDate22 = date22.replaceAll("-","");
+
+				// Check if the input is valid
+				while(!isDate(cleanDate22) || !date22.contains("-"))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Date (eg. 2021-06-01): ");
+					date22 = in.nextLine();
+					cleanDate22 = date22.replaceAll("-","");
+				}
+
+				f.insertVitals(Integer.valueOf(uid22), bloodPressure22, Integer.valueOf(glucose22), Integer.valueOf(heartRate22), date22);
+				
+				break;
+				
+				/* Key Violation - Administrator’s PRIMARY KEY (dID) */
+				/* Key Violation - Administrator’s UNIQUE (deaNumber) */
+				/* Key Violation - Administrator’s UNIQUE (prescriptionNumber) */
+			case "23" :
+				System.out.println("*Key Violation - Create Administrator*");
+				
+				// gets user input
+				System.out.print("Please enter Doctor's ID (dID): ");
+				String did23 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(did23))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Doctor's ID (dID): ");
+					did23 = in.nextLine();
+				}
+				
+				System.out.print("Please enter Doctor's Name: ");
+				String doctorName23 = in.nextLine();
+
+				// Check if the input is not null or blank space
+				while(doctorName23==null || doctorName23.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Name: ");
+					doctorName23 = in.nextLine();
+				}
+				
+				System.out.print("Please enter Doctor's deaNumber: ");
+				String deaNumber23 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(deaNumber23))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Doctor's deaNumber: ");
+					deaNumber23 = in.nextLine();
+				}
+				
+				System.out.print("Please enter Doctor's prescription number: ");
+				String prescriptionNumber23 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(prescriptionNumber23))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Doctor's prescription number: ");
+					prescriptionNumber23 = in.nextLine();
+				}
+
+				System.out.print("Please enter Doctor's Specialty: ");
+				String doctorSpecialty23 = in.nextLine();
+
+				// Check if the input is not null or blank space
+				while(doctorSpecialty23==null || doctorSpecialty23.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Specialty: ");
+					doctorSpecialty23 = in.nextLine();
+				}
+				
+				//(int did, String doctorName, int deaNumber, int prescriptionNumber, String specialty)
+				f.createAdmin(Integer.valueOf(did23), doctorName23, Integer.valueOf(deaNumber23), Integer.valueOf(prescriptionNumber23), doctorSpecialty23);
+				break;
+				
+				/* Key Violation - Offices’s FOREIGN KEY (dID) REFERENCES Administrator(dID) */
+			case "24" :
+				System.out.println("*Key Violation - Offices’s FOREIGN KEY (dID) REFERENCES Administrator(dID)*");
+				
+				// gets user input
+				System.out.print("Please enter Doctor's ID (dID): ");
+				String did24 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(did24))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Doctor's ID (dID): ");
+					did24 = in.nextLine();
+				}
+				
+				System.out.print("Please enter City Name: ");
+				String city24 = in.nextLine();
+
+				// Check if the input is not null or blank space
+				while(city24==null || city24.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter City Name: ");
+					city24 = in.nextLine();
+				}
+				
+				//createOffice(int did, String cityName)
+				f.createOffice(Integer.valueOf(did24), city24);
+				break;
+				
+				/* Key Violation - Reservation’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID) */
+			case "25" :
+				System.out.println("*Key Violation - Reservation’s FOREIGN KEY (uID) REFERENCES PublicUsers(uID)*");
+				
+				// gets user input
+				System.out.print("Please enter User ID (uID): ");
+				String uid25 = in.nextLine();
+				// Check if the input is valid
+				while(!isInteger(uid25))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter User ID (uID): ");
+					uid25 = in.nextLine();
+				}
+				
+				System.out.print("Please enter Doctor's Name: ");
+				String reserveDocName25 = in.nextLine();
+				// Check if the input is not null or blank space
+				while(reserveDocName25==null || reserveDocName25.trim().isEmpty())
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.println("Please enter Doctor's Name: ");
+					reserveDocName25 = in.nextLine();
+				}
+
+				System.out.print("Please enter the appointment date(eg. 2021-06-01): ");
+				String reserveDate25 = in.nextLine();
+				String cleanReserveDate25 = reserveDate25.replaceAll("-","");
+
+				// Check if the input is valid
+				while(!isDate(cleanReserveDate25) || !reserveDate25.contains("-"))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter Date (eg. 2021-06-01): ");
+					reserveDate25 = in.nextLine();
+					cleanReserveDate25 = reserveDate25.replaceAll("-","");
+				}
+
+				System.out.print("Please enter the appointment time: ");
+				String reserveTime25 = in.nextLine();
+				// Check if the input is valid
+				while(!isTime(reserveTime25))
+				{
+					System.out.println("*   *   *   *   *   *");
+					System.out.println("Invalid input! Please try again");
+
+					System.out.print("Please enter the appointment time (eg. 15:00:00): ");
+					reserveTime25 = in.nextLine();
+				}
+				
+				f.makeReservation(reserveDate25, reserveTime25, Integer.valueOf(uid25), f.getDIDFromDoctorName(reserveDocName25));
+				break;
+				
 				/* Stop the engine */ 
 			case "0" :
 				System.out.println("Thank you!! See you again!");
