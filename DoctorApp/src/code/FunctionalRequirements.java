@@ -18,7 +18,7 @@ public class FunctionalRequirements {
 	static final String DB_URL = "jdbc:mysql://localhost/doctorapp?serverTimezone=UTC";
 
 	static final String USER = "root";
-	static final String PASS = "farah1603";
+	static final String PASS = "root";
 	private static PreparedStatement preparedStatement = null;
 
 	public Connection conn = null;
@@ -496,6 +496,7 @@ public class FunctionalRequirements {
 		}
 	}
 
+
 	/**
 	 * This returns the number of doctors in a given office
 	 * @param input is the city name
@@ -695,6 +696,86 @@ public class FunctionalRequirements {
 		}
 	}
 
+	
+	/**
+	 * This method creates an account to show PublicUsers’s PRIMARY KEY(uID) key constraint violation
+	 * @param uid is the user id
+	 * @param fullName is the name
+	 * @param username is the username
+	 * @param password is the password
+	 * @param primaryDoctor is the primary doctor
+	 */
+	public void createAccountKeyViolation(int uid, String fullName, String username, String password, String primaryDoctor) {
+		String sql = null;
+		sql = "insert into PublicUsers "
+				+ "(uid, name, username, password, primaryDoctor) values" + "(?, ?, ?, ?, ?)";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, uid);
+			preparedStatement.setString(2, fullName);
+			preparedStatement.setString(3, username);
+			preparedStatement.setString(4, password);
+			preparedStatement.setString(5, primaryDoctor);
+			preparedStatement.executeUpdate();
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	/**
+	 * This method creates an Administrator to show key constraint violation
+	 * @param did is doctor id
+	 * @param doctorName is the name of doctor
+	 * @param deaNumber is the deaNumber
+	 * @param prescriptionNumber is the prescription number
+	 * @param specialty is doctor's specialty
+	 */
+	public void createAdmin(int did, String doctorName, int deaNumber, int prescriptionNumber, String specialty) {
+		String sql = null;
+		sql = "insert into Administrator "
+				+ "(did, doctorName, deaNumber, prescriptionNumber, specialty) values" + "(?, ?, ?, ?, ?)";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, did);
+			preparedStatement.setString(2, doctorName);
+			preparedStatement.setInt(3, deaNumber);
+			preparedStatement.setInt(4, prescriptionNumber);
+			preparedStatement.setString(5, specialty);
+			preparedStatement.executeUpdate();
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * This method creates an Office to show key constraint violation
+	 * @param did is doctor id
+	 * @param cityName is the name of city
+	 */
+	public void createOffice(int did, String cityName) {
+		String sql = null;
+		sql = "insert into Offices values"
+				+ "(?, ?)";
+		try {
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, did);
+			preparedStatement.setString(2, cityName);
+			preparedStatement.executeUpdate();
+			System.out.println("*****Done*****");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	/**
 	 * This gets a user id given a username
 	 * @param username is the username
